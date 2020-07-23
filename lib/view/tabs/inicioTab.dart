@@ -17,12 +17,13 @@ class _InicioTabState extends State<InicioTab> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+        shrinkWrap: true,
         padding: EdgeInsets.all(4.0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 4.0,
           crossAxisSpacing: 4.0,
-          childAspectRatio: 0.65,
+          childAspectRatio: 0.9,
         ),
         itemCount: widget.snapshot.documents.length,
         itemBuilder: (context, index) {

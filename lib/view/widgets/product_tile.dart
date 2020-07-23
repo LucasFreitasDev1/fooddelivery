@@ -15,39 +15,40 @@ class ProductTile extends StatelessWidget {
             MaterialPageRoute(builder: (context) => ProductScreen(product)));
       },
       child: Card(
+          elevation: 8.0,
           child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 0.9,
-            child: Image.network(
-              product.imgUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    product.title,
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    "R\$ ${product.price.toStringAsFixed(2)}",
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              AspectRatio(
+                aspectRatio: 1.27,
+                child: Image.network(
+                  product.imgUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-          )
-        ],
-      )),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        product.title,
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        "R\$ ${product.price.toStringAsFixed(2)}",
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          )),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/view/widgets/categories.dart';
 import 'package:food_delivery_app/view/widgets/customAppBar.dart';
 import 'package:food_delivery_app/view/widgets/searchBar.dart';
 import 'package:food_delivery_app/const/titleHome.dart';
@@ -16,17 +15,16 @@ class FirstHalf extends StatefulWidget {
 class _FirstHalfState extends State<FirstHalf> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.fromLTRB(20, 25, 20, 16),
       child: Column(
         children: <Widget>[
           CustomAppBar(),
-          SizedBox(height: 30),
+          SizedBox(height: 12),
           title(),
-          SizedBox(height: 30),
+          SizedBox(height: 15),
           SearchBar(),
-          SizedBox(height: 45),
-          TabBarCategories(),
+          //   SizedBox(height: 10),
         ],
       ),
     );

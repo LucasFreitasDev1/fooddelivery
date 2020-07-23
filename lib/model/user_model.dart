@@ -37,7 +37,7 @@ class UserModel extends Model {
         .createUserWithEmailAndPassword(
             email: userData["email"], password: pass)
         .then((user) async {
-      firebaseUser = user.user;
+      firebaseUser = user;
 
       await _saveUserData(userData);
 
@@ -62,7 +62,7 @@ class UserModel extends Model {
     _auth
         .signInWithEmailAndPassword(email: email, password: pass)
         .then((user) async {
-      firebaseUser = user.user;
+      firebaseUser = user;
 
       await _loadCurrentUser();
 
@@ -88,7 +88,7 @@ class UserModel extends Model {
     );
 
     _auth.signInWithCredential(credential).then((user) async {
-      firebaseUser = user.user;
+      firebaseUser = user;
 
       await _loadCurrentUser();
 
