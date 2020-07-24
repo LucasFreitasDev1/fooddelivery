@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:food_delivery_app/const/themeColor.dart';
 import 'package:food_delivery_app/model/user_model.dart';
 import 'package:food_delivery_app/view/pages/cadUsuarioPage.dart';
 import 'package:food_delivery_app/const/inputDecoration.dart';
@@ -21,10 +20,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Color primaryColor = Themes.color;
-
   @override
   Widget build(BuildContext context) {
+    Color primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.grey[300],
@@ -104,11 +102,10 @@ class _LoginPageState extends State<LoginPage> {
                             child: Column(
                               children: <Widget>[
                                 TextFormField(
-                                  cursorColor: Colors.black87,
                                   controller: _emailController,
                                   keyboardType: TextInputType.emailAddress,
-                                  decoration:
-                                      inputDecoration('Email', Icons.email),
+                                  decoration: inputDecoration(
+                                      primaryColor, 'Email', Icons.email),
                                   // ignore: missing_return
                                   validator: (text) {
                                     if (text.isEmpty || !text.contains("@"))
@@ -119,8 +116,8 @@ class _LoginPageState extends State<LoginPage> {
                                 TextFormField(
                                   controller: _passController,
                                   keyboardType: TextInputType.emailAddress,
-                                  decoration:
-                                      inputDecoration('Senha', Icons.lock),
+                                  decoration: inputDecoration(
+                                      primaryColor, 'Senha', Icons.lock),
                                   // ignore: missing_return
                                   validator: (text) {
                                     if (text.isEmpty || text.length < 6)
@@ -160,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                                 SizedBox(height: 10),
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.yellow[800],
+                                      color: Theme.of(context).primaryColor,
                                       borderRadius: BorderRadius.circular(25)),
                                   width: 300,
                                   height: 40,
@@ -168,7 +165,10 @@ class _LoginPageState extends State<LoginPage> {
                                     child: FlatButton(
                                       child: Text(
                                         'Entrar',
-                                        textScaleFactor: 1.3,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w400),
                                       ),
                                       onPressed: () {
                                         if (_formKey.currentState.validate()) {}
@@ -215,7 +215,9 @@ class _LoginPageState extends State<LoginPage> {
                                             padding: EdgeInsets.only(left: 25),
                                             child: Text(
                                               'Entrar com o Google',
-                                              style: TextStyle(fontSize: 16),
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w400),
                                             ),
                                           ),
                                         ),

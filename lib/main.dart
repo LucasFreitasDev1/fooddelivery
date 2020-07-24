@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
                 title: "Vem Delivery",
                 home: HomePage(),
                 debugShowCheckedModeBanner: false,
-                theme: ThemeData(primaryColor: Colors.yellow[900]),
+                theme: ThemeData(primaryColor: Colors.teal[400]),
               ),
             );
           },

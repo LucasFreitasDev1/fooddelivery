@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/view/widgets/buttonToCart.dart';
+import 'package:food_delivery_app/view/widgets/list_product_initial.dart';
 import 'package:food_delivery_app/view/widgets/tab_categories.dart';
 import 'package:food_delivery_app/view/widgets/drawer.dart';
 import 'package:food_delivery_app/view/widgets/firstHalf.dart';
@@ -23,15 +24,12 @@ class _HomePageState extends State<HomePage> {
         child: ButtonCart(),
       ),
       drawer: CustomDrawer(),
-
-      //TODO: Corrigir esse body, deixa-lo completamente com scroll
-
       body: SafeArea(
         child: ListView(
           children: <Widget>[
             FirstHalf(),
             TabCategories(),
-            //     ListProductInitial(snapshot),
+            ListProductInitial(),
           ],
         ),
       ),

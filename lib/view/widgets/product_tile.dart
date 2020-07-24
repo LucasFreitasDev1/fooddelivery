@@ -21,19 +21,21 @@ class ProductTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               AspectRatio(
-                aspectRatio: 1.27,
+                aspectRatio: 1.40,
                 child: Image.network(
                   product.imgUrl,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
               Expanded(
                 child: Container(
+                  alignment: Alignment.center,
                   padding: EdgeInsets.all(8.0),
                   child: Column(
                     children: <Widget>[
                       Text(
                         product.title,
+                        textAlign: TextAlign.center,
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
                       Text(

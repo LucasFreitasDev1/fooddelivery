@@ -21,7 +21,8 @@ class ButtonCart extends StatelessWidget {
         padding: EdgeInsets.all(15),
         width: 90,
         decoration: BoxDecoration(
-            color: Colors.yellow[800], borderRadius: BorderRadius.circular(50)),
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(50)),
       ),
     );
   }
