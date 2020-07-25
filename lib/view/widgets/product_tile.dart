@@ -15,6 +15,7 @@ class ProductTile extends StatelessWidget {
             MaterialPageRoute(builder: (context) => ProductScreen(product)));
       },
       child: Card(
+          margin: EdgeInsets.all(10),
           elevation: 8.0,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -35,6 +36,7 @@ class ProductTile extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         product.title,
+                        maxLines: 1,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
