@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/view/widgets/buttonToCart.dart';
 import 'package:food_delivery_app/view/widgets/list_product_initial.dart';
@@ -12,9 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<QuerySnapshot> snapshot =
-      Firestore.instance.collection('products').getDocuments();
-
+//  Future<QuerySnapshot> snapshot =  Firestore.instance.collection('products').getDocuments();
+  bool isLocale = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +23,36 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: CustomDrawer(),
       body: SafeArea(
-        child: ListView(
+          child: isLocale
+              ? ListView(
+                  children: <Widget>[
+                    FirstHalf(),
+                    TabCategories(),
+                    ListProductInitial(),
+                  ],
+                )
+              : _buildDialog()),
+    );
+  }
+
+  Dialog _buildDialog() {
+    return Dialog(
+      backgroundColor: Colors.grey[500],
+      elevation: 10,
+      shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            FirstHalf(),
-            TabCategories(),
-            ListProductInitial(),
+            Text(
+              'Não disponivel na sua região ainda! ',
+              style: TextStyle(
+                  // color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500),
+            ),
+            Icon(Icons.sentiment_dissatisfied)
           ],
         ),
       ),

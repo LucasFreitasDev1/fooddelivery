@@ -8,18 +8,21 @@ class TabCategories extends StatelessWidget {
     return FutureBuilder<QuerySnapshot>(
       future: Firestore.instance.collection('products').getDocuments(),
       builder: (context, snapshot) {
-        return Container(
-          height: 70,
-          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: snapshot.data.documents.length,
-            itemBuilder: (context, index) {
-              return _buttonCategory(
-                  context, snapshot.data.documents.elementAt(index));
-            },
-          ),
-        );
+        if (snapshot.hasData)
+          return Container(
+            height: 70,
+            padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (context, index) {
+                return _buttonCategory(
+                    context, snapshot.data.documents.elementAt(index));
+              },
+            ),
+          );
+        else
+          return Container();
       },
     );
   }

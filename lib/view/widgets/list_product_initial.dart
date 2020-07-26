@@ -13,61 +13,21 @@ class ListProductInitial extends StatefulWidget {
 class _ListProductInitialState extends State<ListProductInitial> {
   @override
   Widget build(BuildContext context) {
-    // TODO: Corrigir bug na pagina inicial
     return FutureBuilder<QuerySnapshot>(
         future: Firestore.instance.collection('products').getDocuments(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
-            return Center(
-              child: CircularProgressIndicator(
-                backgroundColor: Theme.of(context).primaryColor,
-              ),
-            );
-          if (snapshot.hasError)
-            return AlertDialog(
-              content: Text('Erro'),
+            return Container(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
             );
           else {
-            Future<QuerySnapshot> items = getItems(snapshot.data);
-
-            return FutureBuilder<QuerySnapshot>(
-              future: items,
-              builder: (context, snapshot) => buildGridView(snapshot.data),
-            );
-
-            //return buildGridView();
+            return buildGridView(snapshot.data);
           }
         });
   }
 
-  Future<QuerySnapshot> getItems(QuerySnapshot snapshot) async {
-    QuerySnapshot items;
-    items = snapshot;
-    items.documents.clear();
-
-    QuerySnapshot value;
-    for (var i = 0; i < snapshot.documents.length; i++) {
-      String category = snapshot.documents.elementAt(i).documentID;
-      value = await Firestore.instance
-          .collection('products')
-          .document(category)
-          .collection('items')
-          .getDocuments()
-          .catchError((error) => log('Error: ' + error.toString()));
-      items = value;
-      for (var index = 0; index < value.documents.length; index++) {
-        // Corrigir como os documents são adicionados ao ITEMS
-        items.documents.add(value.documents.elementAt(index));
-        log('ITEMS ADD: ' +
-            items.documents.elementAt(0).data['title'].toString());
-      }
-
-      value.documents.clear();
-    }
-    return items;
-  }
-
-  GridView buildGridView(QuerySnapshot snapshot) {
+  buildGridView(QuerySnapshot snapshot) {
     return GridView.builder(
         shrinkWrap: true,
         padding: EdgeInsets.all(4.0),
@@ -79,11 +39,27 @@ class _ListProductInitialState extends State<ListProductInitial> {
         ),
         itemCount: snapshot.documents.length,
         itemBuilder: (context, index) {
-          ProductData data =
-              ProductData.fromDocument(snapshot.documents.elementAt(index));
-          data.category = snapshot.documents.elementAt(index).documentID;
-          log('CONTEUDO DE data: ' + data.toResumedMap().toString());
-          return ProductTile(data);
+          String category = snapshot.documents.elementAt(index).documentID;
+          QuerySnapshot items;
+          Firestore.instance
+              .collection('products')
+              .document(category)
+              .collection('items')
+              .getDocuments()
+              .then((value) {
+            if (items.documents.isEmpty)
+              return items = value;
+            else
+              return value.documents.map((doc) => items.documents.add(doc));
+          });
+
+          for (DocumentSnapshot item in items.documents) {
+            ProductData data = ProductData.fromDocument(item);
+            data.category = category;
+            log('CONTEUDO DE data: ' + data.toResumedMap().toString());
+            if (data != null) return ProductTile(data);
+          }
+          return Container(height: 0, width: 0);
         });
   }
 }

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
 import 'package:food_delivery_app/model/user_model.dart';
 import 'package:food_delivery_app/view/pages/loginPage.dart';
+import 'package:food_delivery_app/view/pages/order_screen.dart';
 import 'package:food_delivery_app/view/widgets/cartTile.dart';
+import 'package:food_delivery_app/view/widgets/cart_price.dart';
+import 'package:food_delivery_app/view/widgets/discount_card.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartPage extends StatelessWidget {
@@ -85,15 +88,15 @@ class CartPage extends StatelessWidget {
                 children: model.products.map((product) {
                   return CartTile(product);
                 }).toList(),
-              ), /*
+              ),
               DiscountCard(),
-              ShipCard(),
+              //     ShipCard(),
               CartPrice(() async {
                 String orderId = await model.finishOrder();
                 if (orderId != null)
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => OrderScreen(orderId)));                      
-              }),*/
+                      builder: (context) => OrderScreen(orderId)));
+              }),
             ],
           );
         }
