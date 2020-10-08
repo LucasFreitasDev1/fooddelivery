@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_delivery_app/data/cart_product.dart';
-import 'package:food_delivery_app/model/user_model.dart';
+import 'package:food_delivery_app/model/user_model_scoped.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +10,8 @@ class CartModel extends Model {
   UserModel user;
 
   List<CartProduct> products = [];
+
+  List<String> listStores = [];
 
   String couponCode;
   int discountPercentage = 0;
@@ -25,6 +27,9 @@ class CartModel extends Model {
 
   void addCartItem(CartProduct cartProduct) {
     products.add(cartProduct);
+    final String titleStore = cartProduct.store;
+
+    if (!listStores.contains(titleStore)) listStores.add(titleStore);
 
     Firestore.instance
         .collection("users")
@@ -47,6 +52,13 @@ class CartModel extends Model {
         .delete();
 
     products.remove(cartProduct);
+
+    bool retain = false;
+    products.map((product) {
+      if (cartProduct.store == product.store) retain = true;
+    });
+
+    if (!retain) listStores.remove(cartProduct.store);
 
     notifyListeners();
   }
@@ -99,7 +111,7 @@ class CartModel extends Model {
   }
 
   double getShipPrice() {
-    return 9.99;
+    return 1.99;
   }
 
   Future<String> finishOrder() async {

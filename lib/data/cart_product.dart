@@ -6,9 +6,10 @@ class CartProduct {
 
   String category;
   String pid;
+  String adminId;
 
   int quantity;
-  String empresa;
+  String store;
 
   ProductData productData;
 
@@ -18,16 +19,18 @@ class CartProduct {
     cid = document.documentID;
     category = document.data["category"];
     pid = document.data["pid"];
+    adminId = document.data['adminId'];
     quantity = document.data["quantity"];
-    empresa = document.data["empresa"];
+    store = document.data["store"];
   }
 
   Map<String, dynamic> toMap() {
     return {
       "category": category,
       "pid": pid,
+      'adminId': adminId,
       "quantity": quantity,
-      "empresa": empresa,
+      "store": store,
       "product": productData.toResumedMap()
     };
   }
