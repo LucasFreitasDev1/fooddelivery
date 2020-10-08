@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/model/user_model_scoped.dart';
 import 'package:food_delivery_app/view/pages/login/loginPage.dart';
 import 'package:food_delivery_app/view/tiles/drawer_tile.dart';
@@ -11,6 +13,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
     Widget _buildDrawerBack() => Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -43,51 +46,53 @@ class CustomDrawer extends StatelessWidget {
                             fontSize: 34.0, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Positioned(
-                      left: 0.0,
-                      bottom: 0.0,
-                      child: ScopedModelDescendant<UserModel>(
-                        builder: (context, child, model) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'Olá,  ${!model.isLoggedIn() ? "" : model.userData["name"]}',
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              GestureDetector(
-                                child: Text(
-                                  !model.isLoggedIn()
-                                      ? "Entre ou cadastre-se >"
-                                      : "Sair",
+                    StreamBuilder<LoginState>(
+                        stream: loginBloc.outState,
+                        builder: (context, state) {
+                          bool isLoggedIn =
+                              state.data == LoginState.SUCCESS ? true : false;
+                          return Positioned(
+                            left: 0.0,
+                            bottom: 0.0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  'Olá,  ${isLoggedIn ? loginBloc.userModel.name : ''}',
                                   style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 16.0,
+                                      fontSize: 18.0,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                onTap: () {
-                                  if (!model.isLoggedIn())
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => LoginPage()));
-                                  else
-                                    model.signOut();
-                                },
-                              )
-                            ],
+                                GestureDetector(
+                                  child: Text(
+                                    isLoggedIn
+                                        ? "Entre ou cadastre-se >"
+                                        : "Sair",
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  onTap: () {
+                                    if (isLoggedIn)
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginPage()));
+                                    else
+                                      loginBloc.signOut();
+                                  },
+                                )
+                              ],
+                            ),
                           );
-                        },
-                      ),
-                    )
+                        })
                   ],
                 ),
               ),
               Divider(),
               DrawerTile(Icons.home, "Início", pageController, 0),
-              //  DrawerTile(Icons.list, "Produtos", pageController, 1),
-              DrawerTile(Icons.location_on, "Lojas", pageController, 1),
+              DrawerTile(Icons.location_on, "Anunciantes", pageController, 1),
               DrawerTile(
                   Icons.playlist_add_check, "Meus Pedidos", pageController, 2),
             ],

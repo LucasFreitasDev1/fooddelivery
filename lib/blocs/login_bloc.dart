@@ -39,23 +39,18 @@ class LoginBloc extends BlocBase with LoginValidators {
       _streamSubscription =
           FirebaseAuth.instance.onAuthStateChanged.listen((user) async {
         if (user != null) {
-          if (await verifyPrivileges(user)) {
-            await Firestore.instance
-                .collection('admins')
-                .document(user.uid)
-                .get()
-                .then((doc) {
-              userModel.name = doc.data['name'];
-              userModel.phone = doc.data['phone'];
-              userModel.email = doc.data['email'];
-              userModel.uid = user.uid;
-              userModel.address = doc.data['address'];
-            });
-            _stateController.add(LoginState.SUCCESS);
-          } else {
-            FirebaseAuth.instance.signOut();
-            _stateController.add(LoginState.FAIL);
-          }
+          await Firestore.instance
+              .collection('users')
+              .document(user.uid)
+              .get()
+              .then((doc) {
+            userModel.name = doc.data['name'];
+            userModel.phone = doc.data['phone'];
+            userModel.email = doc.data['email'];
+            userModel.uid = user.uid;
+            userModel.address = doc.data['address'];
+          });
+          _stateController.add(LoginState.SUCCESS);
         } else {
           _stateController.add(LoginState.IDLE);
         }
@@ -77,7 +72,6 @@ class LoginBloc extends BlocBase with LoginValidators {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) {
       _stateController.add(LoginState.SUCCESS);
-      // log('LoginState.SUCCESS');
     }).catchError((e) {
       _stateController.add(LoginState.FAIL);
       switch (e.code) {
@@ -135,19 +129,6 @@ class LoginBloc extends BlocBase with LoginValidators {
       }
     });
     return error;
-  }
-
-  Future<bool> verifyPrivileges(FirebaseUser user) async {
-    return await Firestore.instance
-        .collection('admins')
-        .document(user.uid)
-        .get()
-        .then((doc) {
-      if (doc.data['name'] != null) {
-        return true;
-      } else
-        return false;
-    }).catchError((e) => false);
   }
 
   @override

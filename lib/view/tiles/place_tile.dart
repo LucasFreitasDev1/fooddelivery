@@ -14,25 +14,26 @@ class PlaceTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          /* 
           SizedBox(
             height: 100.0,
             child: Image.network(
               snapshot.data["image"],
               fit: BoxFit.cover,
             ),
-          ),
+          ), */
           Container(
             padding: EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  snapshot.data["title"],
+                  snapshot.data["titleStore"],
                   textAlign: TextAlign.start,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
                 ),
                 Text(
-                  snapshot.data["address"],
+                  '${snapshot.data['address'].toString()}',
                   textAlign: TextAlign.start,
                 )
               ],

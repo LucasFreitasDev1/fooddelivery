@@ -1,4 +1,6 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/view/pages/home/tabs/home_tab/widgets/buttonToCart.dart';
 import 'package:food_delivery_app/view/pages/home/tabs/home_tab/widgets/list_product_initial.dart';
 import 'package:food_delivery_app/view/pages/home/tabs/home_tab/widgets/tab_categories.dart';

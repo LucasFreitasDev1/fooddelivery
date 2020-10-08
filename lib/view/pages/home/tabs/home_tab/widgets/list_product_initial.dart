@@ -39,25 +39,7 @@ class _ListProductInitialState extends State<ListProductInitial> {
         ),
         itemCount: products.documents.length,
         itemBuilder: (context, index) {
-          //       String docId;
           DocumentSnapshot doc = products.documents.elementAt(index);
-          /*    if (doc.data['category'] ==
-              Firestore.instance
-                  .collection('category')
-                  .document(doc.data['category'])
-                  .documentID) {
-            docId = doc.documentID;
-          } else {
-            docId = '';
-          }
-          Firestore.instance
-              .collection('category')
-              .document(doc.data['category'])
-              .collection('items')
-              .document(docId)
-              .setData({
-            'productId': docId,
-          }); */
           ProductData data = ProductData.fromDocument(doc);
           data.category = doc.data['category'];
           return ProductTile(data);

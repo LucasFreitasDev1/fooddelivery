@@ -66,7 +66,7 @@ class AddressBloc extends BlocBase with AddressValidators {
     };
 
     await Firestore.instance
-        .collection('admins')
+        .collection('users')
         .document(user.uid)
         .updateData({'address': address}).catchError((error) {
       message = 'Ocorreu um erro. Tente novamente!';
