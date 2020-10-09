@@ -4,7 +4,7 @@ import 'package:food_delivery_app/data/productData.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
 import 'package:food_delivery_app/model/user_model_scoped.dart';
 import 'package:food_delivery_app/view/pages/cart/cart_screen.dart';
-import 'package:food_delivery_app/view/pages/login/loginPage.dart';
+import 'package:food_delivery_app/view/pages/login/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductData product;

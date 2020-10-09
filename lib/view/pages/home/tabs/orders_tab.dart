@@ -1,15 +1,17 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/model/user_model_scoped.dart';
-import 'package:food_delivery_app/view/pages/login/loginPage.dart';
+import 'package:food_delivery_app/blocs/login_bloc.dart';
+import 'package:food_delivery_app/view/pages/login/login_screen.dart';
 import 'package:food_delivery_app/view/tiles/order_tile.dart';
 
 class OrdersTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    if (UserModel.of(context).isLoggedIn()) {
-      String uid = UserModel.of(context).firebaseUser.uid;
+    LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
 
+    String uid = loginBloc.userModel.uid;
+    if (uid != null) {
       return FutureBuilder<QuerySnapshot>(
         future: Firestore.instance
             .collection("users")

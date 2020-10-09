@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
 import 'package:food_delivery_app/model/user_model_scoped.dart';
-import 'package:food_delivery_app/view/pages/login/loginPage.dart';
+import 'package:food_delivery_app/view/pages/login/login_screen.dart';
 import 'package:food_delivery_app/view/pages/order/order_screen.dart';
 import 'package:food_delivery_app/view/tiles/cart_tile.dart';
 import 'package:food_delivery_app/view/pages/cart/widgets/cart_price.dart';

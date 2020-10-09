@@ -2,10 +2,8 @@ import 'dart:ui';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
-import 'package:food_delivery_app/model/user_model_scoped.dart';
-import 'package:food_delivery_app/view/pages/login/loginPage.dart';
+import 'package:food_delivery_app/view/pages/login/login_screen.dart';
 import 'package:food_delivery_app/view/tiles/drawer_tile.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget {
   PageController pageController;

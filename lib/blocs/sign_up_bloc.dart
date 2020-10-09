@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +13,7 @@ import 'validators/signup_validator.dart';
 class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
+  final _confirmPassController = BehaviorSubject<String>();
   final _nameController = BehaviorSubject<String>();
   final _titleStoreController = BehaviorSubject<String>();
   final _phoneController = BehaviorSubject<String>();
@@ -24,6 +27,8 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
       _emailController.stream.transform(validateEmail);
   Stream<String> get outPassword =>
       _passwordController.stream.transform(validatePassword);
+  Stream<String> get outConfirmPass => _confirmPassController.stream
+      .transform(validateConfirmPassword(_passwordController.value));
   Stream<String> get outName => _nameController.stream.transform(validateName);
   Stream<String> get outTitleStore =>
       _titleStoreController.stream.transform(validateNameStore);
@@ -33,6 +38,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
 
   Function(String) get changeEmail => _emailController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
+  Function(String) get changeConfirmPassword => _confirmPassController.sink.add;
   Function(String) get changeName => _nameController.sink.add;
   Function(String) get changePhone => _phoneController.sink.add;
   Function(String) get changeTitleStore => _titleStoreController.sink.add;
@@ -41,6 +47,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
   void dispose() {
     _emailController.close();
     _passwordController.close();
+    _confirmPassController.close();
     _nameController.close();
     _phoneController.close();
     _loadingController.close();
@@ -50,10 +57,10 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
   Future<String> signUp() async {
     _loadingController.add(true);
     userModel = UserClientModel(
-      email: _emailController.value,
-      name: _nameController.value,
-      phone: _phoneController.value,
-    );
+        email: _emailController.value,
+        name: _nameController.value,
+        phone: _phoneController.value,
+        address: {});
     String password = _passwordController.value;
     String message = '';
 

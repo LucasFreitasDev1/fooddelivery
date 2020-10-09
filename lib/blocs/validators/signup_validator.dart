@@ -1,6 +1,16 @@
 import 'dart:async';
 
 class SignUpValidator {
+  StreamTransformer<String, String> validateConfirmPassword(String password1) {
+    return StreamTransformer<String, String>.fromHandlers(
+      handleData: (password2, sink) {
+        if (password2.compareTo(password1) != 0)
+          return 'As senhas não são iguais';
+        return null;
+      },
+    );
+  }
+
   final validateName =
       StreamTransformer<String, String>.fromHandlers(handleData: (name, sink) {
     if (name.length > 6 && name.contains(' ')) {
@@ -18,9 +28,6 @@ class SignUpValidator {
       sink.addError("Insira nome comercial!");
     }
   });
-
-  ///  '^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$'
-  ///
 
   final validatePhone =
       StreamTransformer<String, String>.fromHandlers(handleData: (phone, sink) {
