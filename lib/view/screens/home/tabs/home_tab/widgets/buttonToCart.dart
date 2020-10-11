@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
-import 'package:food_delivery_app/view/pages/cart/cart_screen.dart';
+import 'package:food_delivery_app/view/screens/cart/cart_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ButtonCart extends StatelessWidget {

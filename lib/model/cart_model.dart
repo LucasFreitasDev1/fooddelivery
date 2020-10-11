@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_delivery_app/data/cart_product.dart';
-import 'package:food_delivery_app/model/user_model_scoped.dart';
+import 'package:food_delivery_app/model/user_client_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
 
 class CartModel extends Model {
-  UserModel user;
+  UserClientModel user;
 
   List<CartProduct> products = [];
 
@@ -19,7 +19,7 @@ class CartModel extends Model {
   bool isLoading = false;
 
   CartModel(this.user) {
-    if (user.isLoggedIn()) _loadCartItems();
+    if (user.uid != null) _loadCartItems();
   }
 
   static CartModel of(BuildContext context) =>
@@ -33,7 +33,7 @@ class CartModel extends Model {
 
     Firestore.instance
         .collection("users")
-        .document(user.firebaseUser.uid)
+        .document(user.uid)
         .collection("cart")
         .add(cartProduct.toMap())
         .then((doc) {
@@ -46,7 +46,7 @@ class CartModel extends Model {
   void removeCartItem(CartProduct cartProduct) {
     Firestore.instance
         .collection("users")
-        .document(user.firebaseUser.uid)
+        .document(user.uid)
         .collection("cart")
         .document(cartProduct.cid)
         .delete();
@@ -68,7 +68,7 @@ class CartModel extends Model {
 
     Firestore.instance
         .collection("users")
-        .document(user.firebaseUser.uid)
+        .document(user.uid)
         .collection("cart")
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
@@ -81,7 +81,7 @@ class CartModel extends Model {
 
     Firestore.instance
         .collection("users")
-        .document(user.firebaseUser.uid)
+        .document(user.uid)
         .collection("cart")
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
@@ -126,7 +126,7 @@ class CartModel extends Model {
 
     DocumentReference refOrder =
         await Firestore.instance.collection("orders").add({
-      "clientId": user.firebaseUser.uid,
+      "clientId": user.uid,
       "products": products.map((cartProduct) => cartProduct.toMap()).toList(),
       "shipPrice": shipPrice,
       "productsPrice": productsPrice,
@@ -137,14 +137,14 @@ class CartModel extends Model {
 
     await Firestore.instance
         .collection("users")
-        .document(user.firebaseUser.uid)
+        .document(user.uid)
         .collection("orders")
         .document(refOrder.documentID)
         .setData({"orderId": refOrder.documentID});
 
     QuerySnapshot query = await Firestore.instance
         .collection("users")
-        .document(user.firebaseUser.uid)
+        .document(user.uid)
         .collection("cart")
         .getDocuments();
 
@@ -166,7 +166,7 @@ class CartModel extends Model {
   void _loadCartItems() async {
     QuerySnapshot query = await Firestore.instance
         .collection("users")
-        .document(user.firebaseUser.uid)
+        .document(user.uid)
         .collection("cart")
         .getDocuments();
 

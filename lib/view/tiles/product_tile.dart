@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/data/productData.dart';
-import 'package:food_delivery_app/view/pages/product/productPage.dart';
+import 'package:food_delivery_app/view/screens/product/productPage.dart';
 
 class ProductTile extends StatelessWidget {
   final ProductData product;

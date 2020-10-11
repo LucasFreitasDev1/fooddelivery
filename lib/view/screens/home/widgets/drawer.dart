@@ -2,11 +2,11 @@ import 'dart:ui';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
-import 'package:food_delivery_app/view/pages/login/login_screen.dart';
+import 'package:food_delivery_app/view/screens/login/login_screen.dart';
 import 'package:food_delivery_app/view/tiles/drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget {
-  PageController pageController;
+  final PageController pageController;
   CustomDrawer(this.pageController);
 
   @override
@@ -63,7 +63,7 @@ class CustomDrawer extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   child: Text(
-                                    isLoggedIn
+                                    !isLoggedIn
                                         ? "Entre ou cadastre-se >"
                                         : "Sair",
                                     style: TextStyle(
@@ -72,11 +72,11 @@ class CustomDrawer extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   onTap: () {
-                                    if (isLoggedIn)
+                                    if (!isLoggedIn)
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  LoginPage()));
+                                                  LoginScreen()));
                                     else
                                       loginBloc.signOut();
                                   },

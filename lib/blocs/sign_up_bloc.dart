@@ -21,6 +21,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
 
   UserClientModel userModel;
 
+  // ignore: unused_field
   FirebaseUser _firebaseUser;
 
   Stream<String> get outEmail =>

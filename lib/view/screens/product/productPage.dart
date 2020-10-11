@@ -1,10 +1,11 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/data/cart_product.dart';
 import 'package:food_delivery_app/data/productData.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
-import 'package:food_delivery_app/model/user_model_scoped.dart';
-import 'package:food_delivery_app/view/pages/cart/cart_screen.dart';
-import 'package:food_delivery_app/view/pages/login/login_screen.dart';
+import 'package:food_delivery_app/view/screens/cart/cart_screen.dart';
+import 'package:food_delivery_app/view/screens/login/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductData product;
@@ -25,6 +26,7 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = Theme.of(context).primaryColor;
+    LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -76,38 +78,42 @@ class _ProductScreenState extends State<ProductScreen> {
                 SizedBox(
                   height: 16.0,
                 ),
-                SizedBox(
-                  height: 44.0,
-                  child: RaisedButton(
-                    onPressed: () {
-                      if (UserModel.of(context).isLoggedIn()) {
-                        CartProduct cartProduct = CartProduct();
-                        cartProduct.quantity = quantity;
-                        cartProduct.pid = product.id;
-                        cartProduct.category = product.category;
-                        cartProduct.store = product.store;
-                        cartProduct.productData = product;
-                        cartProduct.adminId = product.adminId;
+                StreamBuilder<LoginState>(
+                    stream: loginBloc.outState,
+                    builder: (context, snapshot) {
+                      return SizedBox(
+                        height: 44.0,
+                        child: RaisedButton(
+                          onPressed: () {
+                            if (snapshot.data == LoginState.SUCCESS) {
+                              CartProduct cartProduct = CartProduct();
+                              cartProduct.quantity = quantity;
+                              cartProduct.pid = product.id;
+                              cartProduct.category = product.category;
+                              cartProduct.store = product.store;
+                              cartProduct.productData = product;
+                              cartProduct.adminId = product.adminId;
 
-                        CartModel.of(context).addCartItem(cartProduct);
+                              CartModel.of(context).addCartItem(cartProduct);
 
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CartPage()));
-                      } else {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => LoginPage()));
-                      }
-                    },
-                    child: Text(
-                      UserModel.of(context).isLoggedIn()
-                          ? "Adicionar ao Carrinho"
-                          : "Entre para Comprar",
-                      style: TextStyle(fontSize: 18.0),
-                    ),
-                    color: primaryColor,
-                    textColor: Colors.white,
-                  ),
-                ),
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => CartPage()));
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                            }
+                          },
+                          child: Text(
+                            snapshot.data == LoginState.SUCCESS
+                                ? "Adicionar ao Carrinho"
+                                : "Entre para Comprar",
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                          color: primaryColor,
+                          textColor: Colors.white,
+                        ),
+                      );
+                    }),
                 SizedBox(
                   height: 16.0,
                 ),

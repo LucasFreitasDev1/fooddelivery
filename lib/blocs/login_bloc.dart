@@ -104,6 +104,7 @@ class LoginBloc extends BlocBase with LoginValidators {
 
   void signOut() {
     FirebaseAuth.instance.signOut();
+    userModel = UserClientModel();
     _stateController.add(LoginState.FAIL);
   }
 

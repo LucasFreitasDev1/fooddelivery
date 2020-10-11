@@ -1,15 +1,13 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/blocs/login_bloc.dart';
-import 'package:food_delivery_app/view/pages/home/tabs/home_tab/widgets/buttonToCart.dart';
-import 'package:food_delivery_app/view/pages/home/tabs/home_tab/widgets/list_product_initial.dart';
-import 'package:food_delivery_app/view/pages/home/tabs/home_tab/widgets/tab_categories.dart';
-import 'package:food_delivery_app/view/pages/home/widgets/drawer.dart';
-import 'package:food_delivery_app/view/pages/home/tabs/home_tab/widgets/firstHalf.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/buttonToCart.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/firstHalf.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/list_product_initial.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/tab_categories.dart';
+import 'package:food_delivery_app/view/screens/home/widgets/drawer.dart';
 
-class HomePage extends StatelessWidget {
+class HomeTab extends StatelessWidget {
   final PageController _pageController;
-  HomePage(this._pageController);
+  HomeTab(this._pageController);
 
   final bool isLocale = true;
   @override

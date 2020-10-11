@@ -1,16 +1,19 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
-import 'package:food_delivery_app/model/user_model_scoped.dart';
-import 'package:food_delivery_app/view/pages/login/login_screen.dart';
-import 'package:food_delivery_app/view/pages/order/order_screen.dart';
+import 'package:food_delivery_app/view/screens/cart/widgets/cart_price.dart';
+import 'package:food_delivery_app/view/screens/cart/widgets/discount_card.dart';
+import 'package:food_delivery_app/view/screens/login/login_screen.dart';
+import 'package:food_delivery_app/view/screens/order/order_screen.dart';
 import 'package:food_delivery_app/view/tiles/cart_tile.dart';
-import 'package:food_delivery_app/view/pages/cart/widgets/cart_price.dart';
-import 'package:food_delivery_app/view/pages/cart/widgets/discount_card.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _loginBloc = BlocProvider.of<LoginBloc>(context);
+    bool isLoggedIn = _loginBloc.userModel.uid != null;
     return Scaffold(
       appBar: AppBar(
         title: Text("Meu Carrinho"),
@@ -31,11 +34,11 @@ class CartPage extends StatelessWidget {
         ],
       ),
       body: ScopedModelDescendant<CartModel>(builder: (context, child, model) {
-        if (model.isLoading && UserModel.of(context).isLoggedIn()) {
+        if (model.isLoading && isLoggedIn) {
           return Center(
             child: CircularProgressIndicator(),
           );
-        } else if (!UserModel.of(context).isLoggedIn()) {
+        } else if (!isLoggedIn) {
           return Container(
             padding: EdgeInsets.all(16.0),
             child: Column(
@@ -67,7 +70,7 @@ class CartPage extends StatelessWidget {
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
                 )
               ],
@@ -82,7 +85,6 @@ class CartPage extends StatelessWidget {
             ),
           );
         } else {
-          List<String> stores = model.listStores;
           return ListView(
             children: <Widget>[
               Column(

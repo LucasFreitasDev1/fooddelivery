@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/sign_up_bloc.dart';
-import 'package:food_delivery_app/view/pages/address/cad_address_screen.dart';
+import 'package:food_delivery_app/view/screens/address/address_screen.dart';
 import 'package:food_delivery_app/view/widgets/input_field.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -97,7 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               String error = await _signUpBloc.signUp();
                               if (error == '') {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => CadAddress(),
+                                  builder: (context) => AddressScreen(),
                                 ));
                               } else {
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -122,13 +122,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
       ),
     );
-  }
-
-  void _onFail() {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text("Falha ao criar usuário!"),
-      backgroundColor: Colors.redAccent,
-      duration: Duration(seconds: 2),
-    ));
   }
 }

@@ -5,30 +5,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
-import 'package:food_delivery_app/view/pages/login/widgets/header_login.dart';
-import 'package:food_delivery_app/view/pages/signUp/sign_up_screen.dart';
-import 'package:food_delivery_app/view/widgets/inputDecoration.dart';
+import 'package:food_delivery_app/view/screens/login/widgets/header_login.dart';
+import 'package:food_delivery_app/view/screens/signUp/sign_up_screen.dart';
 import 'package:food_delivery_app/view/widgets/input_field.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passController = TextEditingController();
-
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
-    Color primaryColor = Theme.of(context).primaryColor;
+    final loginBloc = BlocProvider.of<LoginBloc>(context);
     return Scaffold(
       key: _scaffoldKey,
       body: StreamBuilder<bool>(
+        initialData: false,
         stream: loginBloc.outLoading,
         builder: (context, loading) {
           if (loading.data)
@@ -41,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
 
           return Stack(children: [
             Container(
-              color: primaryColor,
+              color: Theme.of(context).primaryColor,
             ),
             Form(
               key: _formKey,
@@ -92,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                                         ? "Confira seu e-mail!"
                                         : 'Informe seu email!'),
                                     backgroundColor: messageError == ''
-                                        ? primaryColor
+                                        ? Theme.of(context).primaryColor
                                         : Colors.red,
                                     duration: Duration(seconds: 2),
                                   ));

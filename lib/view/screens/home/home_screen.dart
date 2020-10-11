@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/view/pages/home/tabs/home_tab/home_tab.dart';
-import 'package:food_delivery_app/view/pages/home/tabs/orders_tab/orders_tab.dart';
-import 'package:food_delivery_app/view/pages/home/tabs/places_tab/places_tab.dart';
-import 'package:food_delivery_app/view/pages/home/widgets/drawer.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/home_tab/home_tab.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/orders_tab/orders_tab.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/places_tab/places_tab.dart';
+import 'package:food_delivery_app/view/screens/home/widgets/drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   final _pageController = PageController();
@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
       controller: _pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        HomePage(_pageController),
+        HomeTab(_pageController),
         Scaffold(
           appBar: AppBar(
             title: Text("Lojas"),
