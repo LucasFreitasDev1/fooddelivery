@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
         initialData: false,
         stream: loginBloc.outLoading,
         builder: (context, loading) {
-          if (loading.data)
+          if (loading.data || !loading.hasData)
             return Center(
               child: CircularProgressIndicator(
                 valueColor:
@@ -60,6 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 50,
                           ),
                           InputField(
+                            done: false,
+                            obscure: false,
                             icon: Icons.alternate_email,
                             keyboardType: TextInputType.emailAddress,
                             hint: 'Email',

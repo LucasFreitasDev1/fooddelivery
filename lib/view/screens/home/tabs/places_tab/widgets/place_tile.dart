@@ -9,6 +9,13 @@ class PlaceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String rua = snapshot.data['address']['rua'];
+    String compl = snapshot.data['address']['complemento'];
+    String ref = snapshot.data['address']['referencia'];
+    String bairro = snapshot.data['address']['bairro'];
+    String cidade = snapshot.data['address']['cidade'];
+    String estado = snapshot.data['address']['estado'];
+
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Column(
@@ -33,7 +40,7 @@ class PlaceTile extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
                 ),
                 Text(
-                  '${snapshot.data['address'].toString()}',
+                  '$rua, $compl, \n$ref, \n$bairro, \n$cidade, \n$estado',
                   textAlign: TextAlign.start,
                 )
               ],
@@ -46,11 +53,7 @@ class PlaceTile extends StatelessWidget {
                 child: Text("Ver no Mapa"),
                 textColor: Colors.blue,
                 padding: EdgeInsets.zero,
-                onPressed: () {
-                  launch(
-                      "https://www.google.com/maps/search/?api=1&query=${snapshot.data["lat"]},"
-                      "${snapshot.data["long"]}");
-                },
+                onPressed: () {},
               ),
               FlatButton(
                 child: Text("Ligar"),

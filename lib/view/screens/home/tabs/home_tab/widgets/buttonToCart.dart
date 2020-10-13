@@ -17,11 +17,17 @@ class ButtonCart extends StatelessWidget {
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(Icons.local_grocery_store),
+                Icon(
+                  Icons.local_grocery_store,
+                  color: Colors.white,
+                ),
                 Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
                 Text(
                   model.products.length.toString(),
-                  style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white),
                 ),
               ]),
           padding: EdgeInsets.all(15),

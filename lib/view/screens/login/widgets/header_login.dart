@@ -5,8 +5,10 @@ class HeaderLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        Image.asset('assets/delivery-icons/android-icon-192x192.png',
+            height: 50),
         Text(
           "Vem",
           style: TextStyle(

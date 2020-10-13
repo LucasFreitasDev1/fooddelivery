@@ -18,6 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       key: _scaffoldKey,
       body: StreamBuilder<bool>(
+        initialData: false,
         stream: _signUpBloc.outLoading,
         builder: (context, loading) {
           if (loading.data || !loading.hasData)
@@ -61,6 +62,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           icon: Icons.person_outline,
                           onChanged: _signUpBloc.changeName,
                           stream: _signUpBloc.outName,
+                          done: false,
+                          obscure: false,
                         ),
                         SizedBox(
                           height: 20,
@@ -71,6 +74,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           icon: Icons.alternate_email,
                           onChanged: _signUpBloc.changeEmail,
                           stream: _signUpBloc.outEmail,
+                          done: false,
+                          obscure: false,
                         ),
                         SizedBox(height: 20),
                         InputField(
@@ -79,6 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           icon: Icons.lock_outline,
                           onChanged: _signUpBloc.changePassword,
                           stream: _signUpBloc.outPassword,
+                          done: false,
                         ),
                         SizedBox(height: 20),
                         InputField(
@@ -87,12 +93,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           obscure: true,
                           onChanged: _signUpBloc.changeConfirmPassword,
                           stream: _signUpBloc.outConfirmPass,
+                          done: true,
                         ),
                         SizedBox(height: 30),
                         Container(
                           height: 45,
                           width: double.infinity,
                           child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50)),
                             onPressed: () async {
                               String error = await _signUpBloc.signUp();
                               if (error == '') {
