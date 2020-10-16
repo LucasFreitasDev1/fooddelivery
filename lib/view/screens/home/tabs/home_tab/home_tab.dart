@@ -1,4 +1,6 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/buttonToCart.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/firstHalf.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/list_product_initial.dart';
@@ -9,9 +11,15 @@ class HomeTab extends StatelessWidget {
   final PageController _pageController;
   HomeTab(this._pageController);
 
-  final bool isLocale = true;
+  bool isLocale = true;
   @override
   Widget build(BuildContext context) {
+    LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
+    if (_loginBloc.userModel.address != null) {
+      isLocale =
+          _loginBloc.userModel.address['cidade'].toString().toLowerCase() ==
+              'carinhanha';
+    }
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: Padding(

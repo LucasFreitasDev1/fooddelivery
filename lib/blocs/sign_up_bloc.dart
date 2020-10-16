@@ -85,11 +85,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password)
         .then((firebaseUser) async {
-      if (await _verifyPrivileges(userModel)) {
-        await FirebaseAuth.instance.signOut();
-        return 'Usuario já cadastrado. Faça login para continuar.';
-      } else
-        userModel.uid = firebaseUser.uid;
+      userModel.uid = firebaseUser.uid;
       _firebaseUser = firebaseUser;
       await _saveDataonFirestore();
       return '';
@@ -100,24 +96,9 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
 
   Future<void> _saveDataonFirestore() async {
     await Firestore.instance
-        .collection('admins')
+        .collection('users')
         .document(userModel.uid)
         .setData(userModel.toMap());
-  }
-
-  /// Function for verify if user have privilegies
-
-  Future<bool> _verifyPrivileges(user) async {
-    return await Firestore.instance
-        .collection('admins')
-        .document(user.uid)
-        .get()
-        .then((doc) {
-      if (doc.data['name'] != null) {
-        return true;
-      } else
-        return false;
-    }).catchError((e) => false);
   }
 
   /// Function for create user on Firebase and Firestore with email and pass
