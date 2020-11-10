@@ -29,7 +29,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
   Stream<String> get outPassword =>
       _passwordController.stream.transform(validatePassword);
   Stream<String> get outConfirmPass => _confirmPassController.stream
-      .transform(validateConfirmPassword(_passwordController.value));
+      .transform(validateConfirmPassword(_confirmPassController.value));
   Stream<String> get outName => _nameController.stream.transform(validateName);
   Stream<String> get outTitleStore =>
       _titleStoreController.stream.transform(validateNameStore);

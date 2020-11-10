@@ -17,8 +17,9 @@ class HeaderAddress extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(20),
           child: Text(
-            'Agora precisamos saber seu endereço,' +
-                ' para que seus clientes possam te encontrar.',
+            'Agora precisamos saber seu endereço' +
+                ' para entrega dos seus pedidos. ' +
+                '\nÉ muito importante você manter esses dados atualizados.',
             style: TextStyle(
                 color: Colors.grey[700],
                 fontSize: 18,

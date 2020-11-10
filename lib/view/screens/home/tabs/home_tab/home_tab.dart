@@ -11,15 +11,18 @@ class HomeTab extends StatelessWidget {
   final PageController _pageController;
   HomeTab(this._pageController);
 
-  bool isLocale = true;
   @override
   Widget build(BuildContext context) {
-    LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
-    if (_loginBloc.userModel.address != null) {
-      isLocale =
-          _loginBloc.userModel.address['cidade'].toString().toLowerCase() ==
-              'carinhanha';
-    }
+    /*     LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
+
+      isLocal =
+          _loginBloc.userModel.address['cidade'].toLowerCase() == 'carinhanha'; 
+
+    showDialog(
+        context: null,
+        builder: (context) => _buildDialog(),
+        barrierDismissible: false); */
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: Padding(
@@ -28,15 +31,13 @@ class HomeTab extends StatelessWidget {
       ),
       drawer: CustomDrawer(_pageController),
       body: SafeArea(
-          child: isLocale
-              ? ListView(
-                  children: <Widget>[
-                    FirstHalf(),
-                    TabCategories(),
-                    ListProductInitial(),
-                  ],
-                )
-              : _buildDialog()),
+          child: ListView(
+        children: <Widget>[
+          FirstHalf(),
+          TabCategories(),
+          ListProductInitial(),
+        ],
+      )),
     );
   }
 

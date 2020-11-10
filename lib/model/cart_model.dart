@@ -35,6 +35,8 @@ class CartModel extends Model {
         .collection("users")
         .document(user.uid)
         .collection("cart")
+        .document('admins')
+        .collection(cartProduct.adminId)
         .add(cartProduct.toMap())
         .then((doc) {
       cartProduct.cid = doc.documentID;
@@ -48,6 +50,8 @@ class CartModel extends Model {
         .collection("users")
         .document(user.uid)
         .collection("cart")
+        .document('admins')
+        .collection(cartProduct.adminId)
         .document(cartProduct.cid)
         .delete();
 
@@ -70,6 +74,8 @@ class CartModel extends Model {
         .collection("users")
         .document(user.uid)
         .collection("cart")
+        .document('admins')
+        .collection(cartProduct.adminId)
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
 
@@ -83,6 +89,8 @@ class CartModel extends Model {
         .collection("users")
         .document(user.uid)
         .collection("cart")
+        .document('admins')
+        .collection(cartProduct.adminId)
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
 
@@ -124,43 +132,56 @@ class CartModel extends Model {
     double shipPrice = getShipPrice();
     double discount = getDiscount();
 
-    DocumentReference refOrder =
-        await Firestore.instance.collection("orders").add({
-      "clientId": user.uid,
-      "products": products.map((cartProduct) => cartProduct.toMap()).toList(),
-      "shipPrice": shipPrice,
-      "productsPrice": productsPrice,
-      "discount": discount,
-      "totalPrice": productsPrice - discount + shipPrice,
-      "status": 1
-    });
+    List<String> admins;
 
-    await Firestore.instance
-        .collection("users")
-        .document(user.uid)
-        .collection("orders")
-        .document(refOrder.documentID)
-        .setData({"orderId": refOrder.documentID});
-
-    QuerySnapshot query = await Firestore.instance
-        .collection("users")
-        .document(user.uid)
-        .collection("cart")
-        .getDocuments();
-
-    for (DocumentSnapshot doc in query.documents) {
-      doc.reference.delete();
+    for (CartProduct cartProduct in products) {
+      if (!admins.contains(cartProduct.adminId)) {
+        admins.add(cartProduct.adminId);
+      }
     }
 
-    products.clear();
+    for (String adminId in admins) {
+      DocumentReference refOrder =
+          await Firestore.instance.collection("orders").add({
+        "adminId": adminId,
+        "clientId": user.uid,
+        "products": products.map((cartProduct) => cartProduct.toMap()).toList(),
+        "shipPrice": shipPrice,
+        "productsPrice": productsPrice,
+        "discount": discount,
+        "totalPrice": productsPrice - discount + shipPrice,
+        "status": 1
+      });
 
-    couponCode = null;
-    discountPercentage = 0;
+      await Firestore.instance
+          .collection("users")
+          .document(user.uid)
+          .collection("orders")
+          .document('admins')
+          .collection(adminId)
+          .document(refOrder.documentID)
+          .setData({"orderId": refOrder.documentID});
 
-    isLoading = false;
-    notifyListeners();
+      QuerySnapshot query = await Firestore.instance
+          .collection("users")
+          .document(user.uid)
+          .collection("cart")
+          .getDocuments();
 
-    return refOrder.documentID;
+      for (DocumentSnapshot doc in query.documents) {
+        doc.reference.delete();
+      }
+
+      products.clear();
+
+      couponCode = null;
+      discountPercentage = 0;
+
+      isLoading = false;
+      notifyListeners();
+
+      return refOrder.documentID;
+    }
   }
 
   void _loadCartItems() async {
@@ -169,6 +190,19 @@ class CartModel extends Model {
         .document(user.uid)
         .collection("cart")
         .getDocuments();
+
+    QuerySnapshot query2;
+
+    for (DocumentSnapshot doc in query.documents) {
+      query2 = await Firestore.instance
+          .collection("users")
+          .document(user.uid)
+          .collection("cart")
+          .document('admins')
+          .collection(doc.documentID)
+          .getDocuments();
+      query.documents.addAll(query2.documents);
+    }
 
     products =
         query.documents.map((doc) => CartProduct.fromDocument(doc)).toList();

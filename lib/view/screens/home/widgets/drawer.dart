@@ -8,16 +8,19 @@ import 'package:food_delivery_app/view/tiles/drawer_tile.dart';
 class CustomDrawer extends StatelessWidget {
   final PageController pageController;
   CustomDrawer(this.pageController);
+  final List<Color> colorsGradient = [Colors.lightBlue[50], Colors.white];
 
   @override
   Widget build(BuildContext context) {
     LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
     Widget _buildDrawerBack() => Container(
           decoration: BoxDecoration(
+            color: Colors.lightBlue[50],
+            /* 
             gradient: LinearGradient(
-                colors: [Colors.lightBlue[50], Colors.white],
                 begin: Alignment.topCenter,
-                end: Alignment.bottomCenter),
+                end: Alignment.bottomCenter,
+                List: colorsGradient), */
           ),
         );
 

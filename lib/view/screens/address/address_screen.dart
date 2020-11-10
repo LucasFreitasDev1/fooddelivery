@@ -33,7 +33,7 @@ class _AddressScreenState extends State<AddressScreen> {
                   padding: const EdgeInsets.all(16.0),
                   children: [
                     HeaderAddress(),
-                    SizedBox(height: 30),
+                    SizedBox(height: 20),
                     InputField(
                       done: false,
                       hint: 'Rua',
