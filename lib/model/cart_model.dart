@@ -122,6 +122,7 @@ class CartModel extends Model {
     return 1.99;
   }
 
+  // ignore: missing_return
   Future<String> finishOrder() async {
     if (products.length == 0) return null;
 

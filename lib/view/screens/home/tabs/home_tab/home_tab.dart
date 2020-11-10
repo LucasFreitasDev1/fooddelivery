@@ -1,6 +1,4 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/buttonToCart.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/firstHalf.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/list_product_initial.dart';
@@ -41,6 +39,7 @@ class HomeTab extends StatelessWidget {
     );
   }
 
+  // ignore: unused_element
   Dialog _buildDialog() {
     return Dialog(
       backgroundColor: Colors.grey[500],
