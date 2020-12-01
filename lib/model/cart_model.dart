@@ -12,15 +12,16 @@ import 'package:flutter/material.dart';
 class CartModel extends Model {
   UserClientModel user;
 
-  Map<String, List<CartProduct>> products = Map<String, List<CartProduct>>();
+  Map<String, List<CartProduct>> products = {};
 
   String couponCode;
   int discountPercentage = 0;
 
   bool isLoading = false;
 
-  CartModel(this.user) {
-    if (user.uid != null) _loadCartItems();
+  CartModel(user) {
+    this.user = user;
+    if (this.user.uid != null) _loadCartItems();
   }
 
   static CartModel of(BuildContext context) =>
@@ -28,16 +29,6 @@ class CartModel extends Model {
 
   void addCartItem(CartProduct cartProduct) {
     log('CARTPRODUCT: ' + cartProduct.toMap().toString());
-    log('PRODUCTS: ' + products.toString());
-    products.addAll({
-      cartProduct.adminId: [cartProduct]
-    });
-    //products[cartProduct.adminId].add(cartProduct);
-    // products.add(cartProduct);
-    // final String titleStore = cartProduct.store;
-
-    // if (!listStores.contains(titleStore)) listStores.add(titleStore);
-
     Firestore.instance
         .collection("users")
         .document(user.uid)
@@ -48,6 +39,9 @@ class CartModel extends Model {
         .then((doc) {
       cartProduct.cid = doc.documentID;
     });
+
+    products[cartProduct.adminId] = [cartProduct];
+    log('PRODUCTS: ' + products.toString());
 
     notifyListeners();
   }
@@ -64,13 +58,6 @@ class CartModel extends Model {
 
     products[cartProduct.adminId].remove(cartProduct);
 
-    /*  bool retain = false;
-    products.map((product) {
-      if (cartProduct.store == product.store) retain = true;
-    });
-
-    if (!retain) listStores.remove(cartProduct.store);
- */
     notifyListeners();
   }
 
@@ -226,6 +213,7 @@ class CartModel extends Model {
         .document(user.uid)
         .collection("cart")
         .getDocuments();
+    log(user.uid + ', query: ' + query.documents.toString());
 
     QuerySnapshot query2;
 
@@ -237,16 +225,13 @@ class CartModel extends Model {
           .document(doc.documentID)
           .collection('products')
           .getDocuments();
-      /* 
-      products.addAll({
-        doc.documentID: query2.documents
-            .map((doc) => CartProduct.fromDocument(doc))
-            .toList()
-      }); */
+
+      log('query2: ' + query2.documents.toString());
 
       products[doc.documentID] =
-          query2.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
+          query2.documents.map((d) => CartProduct.fromDocument(d)).toList();
     }
+    log(products.isEmpty.toString());
 
     /*   products[adminId] =
         query.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
