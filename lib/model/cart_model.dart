@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/data/cart_product.dart';
 import 'package:food_delivery_app/model/user_client_model.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -9,9 +12,7 @@ import 'package:flutter/material.dart';
 class CartModel extends Model {
   UserClientModel user;
 
-  List<CartProduct> products = [];
-
-  List<String> listStores = [];
+  Map<String, List<CartProduct>> products = Map<String, List<CartProduct>>();
 
   String couponCode;
   int discountPercentage = 0;
@@ -26,17 +27,23 @@ class CartModel extends Model {
       ScopedModel.of<CartModel>(context);
 
   void addCartItem(CartProduct cartProduct) {
-    products.add(cartProduct);
-    final String titleStore = cartProduct.store;
+    log('CARTPRODUCT: ' + cartProduct.toMap().toString());
+    log('PRODUCTS: ' + products.toString());
+    products.addAll({
+      cartProduct.adminId: [cartProduct]
+    });
+    //products[cartProduct.adminId].add(cartProduct);
+    // products.add(cartProduct);
+    // final String titleStore = cartProduct.store;
 
-    if (!listStores.contains(titleStore)) listStores.add(titleStore);
+    // if (!listStores.contains(titleStore)) listStores.add(titleStore);
 
     Firestore.instance
         .collection("users")
         .document(user.uid)
         .collection("cart")
-        .document('admins')
-        .collection(cartProduct.adminId)
+        .document(cartProduct.adminId)
+        .collection('products')
         .add(cartProduct.toMap())
         .then((doc) {
       cartProduct.cid = doc.documentID;
@@ -50,20 +57,20 @@ class CartModel extends Model {
         .collection("users")
         .document(user.uid)
         .collection("cart")
-        .document('admins')
-        .collection(cartProduct.adminId)
+        .document(cartProduct.adminId)
+        .collection('products')
         .document(cartProduct.cid)
         .delete();
 
-    products.remove(cartProduct);
+    products[cartProduct.adminId].remove(cartProduct);
 
-    bool retain = false;
+    /*  bool retain = false;
     products.map((product) {
       if (cartProduct.store == product.store) retain = true;
     });
 
     if (!retain) listStores.remove(cartProduct.store);
-
+ */
     notifyListeners();
   }
 
@@ -74,8 +81,8 @@ class CartModel extends Model {
         .collection("users")
         .document(user.uid)
         .collection("cart")
-        .document('admins')
-        .collection(cartProduct.adminId)
+        .document(cartProduct.adminId)
+        .collection('products')
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
 
@@ -89,8 +96,8 @@ class CartModel extends Model {
         .collection("users")
         .document(user.uid)
         .collection("cart")
-        .document('admins')
-        .collection(cartProduct.adminId)
+        .document(cartProduct.adminId)
+        .collection('products')
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
 
@@ -106,19 +113,41 @@ class CartModel extends Model {
     notifyListeners();
   }
 
-  double getProductsPrice() {
+  double getProductsPriceTotal() {
+    double priceTotal = 0.0;
+    for (String adminId in products.keys) {
+      double priceAdmin = getProductsPriceAdmin(adminId);
+      priceAdmin += getShipPrice(adminId);
+      priceAdmin -= getDiscount(adminId);
+      priceTotal += priceAdmin;
+    }
+    return priceTotal;
+  }
+
+  double getProductsPriceAdmin(String adminId) {
     double price = 0.0;
-    for (CartProduct c in products) {
+    for (CartProduct c in products[adminId]) {
       if (c.productData != null) price += c.quantity * c.productData.price;
     }
     return price;
   }
 
-  double getDiscount() {
-    return getProductsPrice() * discountPercentage / 100;
+  double getDiscount(String adminId) {
+    return getProductsPriceAdmin(adminId) * discountPercentage / 100;
   }
 
-  double getShipPrice() {
+  double getShipPrice(String adminId) {
+    /* Firestore.instance
+        .collection('admins')
+        .document(adminId)
+        .collection('shipPrice')
+        .document('1')
+        .get()
+        .then((doc) {
+      if (doc.data['price'] != null) {
+        return doc.data['price'] as double;
+      }
+    }); */
     return 1.99;
   }
 
@@ -129,24 +158,30 @@ class CartModel extends Model {
     isLoading = true;
     notifyListeners();
 
-    double productsPrice = getProductsPrice();
-    double shipPrice = getShipPrice();
-    double discount = getDiscount();
-
+/* 
     List<String> admins;
 
     for (CartProduct cartProduct in products) {
       if (!admins.contains(cartProduct.adminId)) {
         admins.add(cartProduct.adminId);
       }
-    }
+    } */
 
-    for (String adminId in admins) {
-      DocumentReference refOrder =
-          await Firestore.instance.collection("orders").add({
+    for (String adminId in products.keys) {
+      double productsPrice = getProductsPriceTotal();
+      double shipPrice = getShipPrice(adminId);
+      double discount = getDiscount(adminId);
+
+      DocumentReference refOrder = await Firestore.instance
+          .collection("orders")
+          .document(adminId)
+          .collection(user.uid)
+          .add({
         "adminId": adminId,
         "clientId": user.uid,
-        "products": products.map((cartProduct) => cartProduct.toMap()).toList(),
+        "products": products[adminId]
+            .map((cartProduct) => cartProduct.toMap())
+            .toList(),
         "shipPrice": shipPrice,
         "productsPrice": productsPrice,
         "discount": discount,
@@ -185,7 +220,7 @@ class CartModel extends Model {
     }
   }
 
-  void _loadCartItems() async {
+  Future<void> _loadCartItems() async {
     QuerySnapshot query = await Firestore.instance
         .collection("users")
         .document(user.uid)
@@ -199,15 +234,23 @@ class CartModel extends Model {
           .collection("users")
           .document(user.uid)
           .collection("cart")
-          .document('admins')
-          .collection(doc.documentID)
+          .document(doc.documentID)
+          .collection('products')
           .getDocuments();
-      query.documents.addAll(query2.documents);
+      /* 
+      products.addAll({
+        doc.documentID: query2.documents
+            .map((doc) => CartProduct.fromDocument(doc))
+            .toList()
+      }); */
+
+      products[doc.documentID] =
+          query2.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
     }
 
-    products =
+    /*   products[adminId] =
         query.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
-
+ */
     notifyListeners();
   }
 }

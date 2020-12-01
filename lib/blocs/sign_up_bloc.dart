@@ -29,7 +29,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
   Stream<String> get outPassword =>
       _passwordController.stream.transform(validatePassword);
   Stream<String> get outConfirmPass => _confirmPassController.stream
-      .transform(validateConfirmPassword(_confirmPassController.value));
+      .transform(validateConfirmPassword(_passwordController.value));
   Stream<String> get outName => _nameController.stream.transform(validateName);
   Stream<String> get outTitleStore =>
       _titleStoreController.stream.transform(validateNameStore);
@@ -114,7 +114,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
     }).catchError((error) async {
       switch (error.code) {
         case 'ERROR_EMAIL_ALREADY_IN_USE':
-          messageError = await _signIn(userModel.email, password);
+          messageError = 'Email já cadastrado.';
           break;
         case 'ERROR_INVALID_EMAIL':
           messageError = 'Formato de email invalido';

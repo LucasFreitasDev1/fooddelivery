@@ -2,7 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
-import 'package:food_delivery_app/view/screens/cart/widgets/cart_price.dart';
+import 'package:food_delivery_app/view/screens/cart/widgets/cart_price_total.dart';
 import 'package:food_delivery_app/view/screens/cart/widgets/discount_card.dart';
 import 'package:food_delivery_app/view/screens/login/login_screen.dart';
 import 'package:food_delivery_app/view/screens/order/order_screen.dart';
@@ -23,7 +23,7 @@ class CartPage extends StatelessWidget {
             alignment: Alignment.center,
             child: ScopedModelDescendant<CartModel>(
               builder: (context, child, model) {
-                int p = model.products.length;
+                int p = model.products.values.length;
                 return Text(
                   "${p ?? 0} ${p == 1 ? "ITEM" : "ITENS"}",
                   style: TextStyle(fontSize: 17.0),
@@ -86,10 +86,48 @@ class CartPage extends StatelessWidget {
           );
         } else {
           return ListView(
+            shrinkWrap: false,
             children: <Widget>[
               Column(
-                children: model.products.map((product) {
-                  return CartTile(product);
+                children: model.products.keys.map((adminId) {
+                  return Card(
+                    shape: Border.all(color: Colors.black54),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            model.products[adminId].first.store,
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Column(
+                            children:
+                                model.products[adminId].map((cartProduct) {
+                          return CartTile(cartProduct);
+                        }).toList()),
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Entrega",
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                "R\$ ${model.getShipPrice(adminId).toStringAsFixed(2)}",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 16.0),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
                 }).toList(),
               ),
               DiscountCard(),

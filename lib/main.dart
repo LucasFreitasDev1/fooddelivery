@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartModel cartModel = CartModel(loginBloc.userModel);
+    log('CARTMODEL: ' + cartModel.products.isEmpty.toString());
     return BlocProvider<LoginBloc>(
       bloc: loginBloc,
       child: ScopedModel<CartModel>(

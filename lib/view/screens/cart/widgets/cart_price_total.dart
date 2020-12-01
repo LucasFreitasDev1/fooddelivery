@@ -15,9 +15,7 @@ class CartPrice extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         child: ScopedModelDescendant<CartModel>(
           builder: (context, child, model) {
-            double price = model.getProductsPrice();
-            double discount = model.getDiscount();
-            double ship = model.getShipPrice();
+            double priceTotal = model.getProductsPriceTotal();
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -29,29 +27,6 @@ class CartPrice extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 12.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("Subtotal"),
-                    Text("R\$ ${price.toStringAsFixed(2)}")
-                  ],
-                ),
-                Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("Desconto"),
-                    Text("R\$ ${discount.toStringAsFixed(2)}")
-                  ],
-                ),
-                Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("Entrega"),
-                    Text("R\$ ${ship.toStringAsFixed(2)}")
-                  ],
                 ),
                 Divider(),
                 SizedBox(
@@ -65,7 +40,7 @@ class CartPrice extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      "R\$ ${(price + ship - discount).toStringAsFixed(2)}",
+                      "R\$ ${priceTotal.toStringAsFixed(2)}",
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 16.0),
