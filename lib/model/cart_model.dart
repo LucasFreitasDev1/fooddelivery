@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/data/cart_product.dart';
 import 'package:food_delivery_app/model/user_client_model.dart';
 import 'package:scoped_model/scoped_model.dart';

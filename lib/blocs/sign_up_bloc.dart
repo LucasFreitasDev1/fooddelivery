@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:food_delivery_app/model/user_client_model.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -78,22 +77,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
     }
   }
 
-  ///Function to create admin user with email in use
-
-  // ignore: missing_return
-  Future<String> _signIn(String email, String password) async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((firebaseUser) async {
-      userModel.uid = firebaseUser.uid;
-      _firebaseUser = firebaseUser;
-      await _saveDataonFirestore();
-      return '';
-    }).catchError((error) => _errorHandlingSignIn(error));
-  }
-
   /// Function for save data on Firebase
-
   Future<void> _saveDataonFirestore() async {
     await Firestore.instance
         .collection('users')
@@ -102,7 +86,6 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
   }
 
   /// Function for create user on Firebase and Firestore with email and pass
-
   Future<String> _createUser(String email, String password) async {
     String messageError = '';
     await FirebaseAuth.instance
@@ -114,7 +97,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
     }).catchError((error) async {
       switch (error.code) {
         case 'ERROR_EMAIL_ALREADY_IN_USE':
-          messageError = 'Email já cadastrado.';
+          messageError = 'Email já cadastrado. Faça login.';
           break;
         case 'ERROR_INVALID_EMAIL':
           messageError = 'Formato de email invalido';
@@ -124,33 +107,5 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
       }
     });
     return messageError;
-  }
-
-  /// Function for error handling when try subscription of user
-  /// with email already in use
-
-  String _errorHandlingSignIn(PlatformException error) {
-    switch (error.code) {
-      case "ERROR_INVALID_EMAIL":
-        return "Seu email está incorreto.";
-        break;
-      case "ERROR_WRONG_PASSWORD":
-        return "Sua senha está incorreta.";
-        break;
-      case "ERROR_USER_NOT_FOUND":
-        return "Usuario com este email não existe.";
-        break;
-      case "ERROR_USER_DISABLED":
-        return "O usuario com este email foi desabilitado.";
-        break;
-      case "ERROR_TOO_MANY_REQUESTS":
-        return "Muitos pedidos. Tente novamente mais tarde.";
-        break;
-      case "ERROR_OPERATION_NOT_ALLOWED":
-        return "O login com e-mail e senha não está ativado.";
-        break;
-      default:
-        return "Um erro indefinido aconteceu.";
-    }
   }
 }
