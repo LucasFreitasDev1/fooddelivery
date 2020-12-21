@@ -26,7 +26,6 @@ class CartModel extends Model {
       ScopedModel.of<CartModel>(context);
 
   void addCartItem(CartProduct cartProduct) {
-    log('CARTPRODUCT: ' + cartProduct.toMap().toString());
     Firestore.instance
         .collection("users")
         .document(user.uid)
@@ -39,7 +38,6 @@ class CartModel extends Model {
     });
 
     products[cartProduct.adminId] = [cartProduct];
-    log('PRODUCTS: ' + products.toString());
 
     notifyListeners();
   }

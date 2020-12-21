@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartModel cartModel = CartModel(loginBloc.userModel);
-    log('CARTMODEL: ' + cartModel.products.isEmpty.toString());
     return BlocProvider<LoginBloc>(
       bloc: loginBloc,
       child: ScopedModel<CartModel>(

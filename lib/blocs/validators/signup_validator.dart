@@ -5,9 +5,9 @@ class SignUpValidator {
     return StreamTransformer<String, String>.fromHandlers(
       handleData: (password2, sink) {
         if (password2.compareTo(password1) != 0) {
-          sink.addError("Senhas não iguais!");
+          return sink.addError("Senhas não iguais!");
         } else {
-          sink.add(password2);
+          return sink.add(password2);
         }
       },
     );
