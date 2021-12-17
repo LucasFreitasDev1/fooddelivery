@@ -6,6 +6,7 @@ import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/carous
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/firstHalf.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/list_product_initial.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/tab_categories.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/trendings_foods_home.dart';
 import 'package:food_delivery_app/view/screens/home/widgets/drawer.dart';
 
 class HomeTab extends StatelessWidget {
@@ -16,8 +17,6 @@ class HomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     QuerySnapshot productsDocuments;
     List<SlideModel> slides;
-
-    
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
@@ -32,6 +31,7 @@ class HomeTab extends StatelessWidget {
           FirstHalf(),
           TabCategories(),
           CarouselSliderHome(),
+          TrendingsFoodsHome(),
           ListProductInitial(),
         ],
       )),
