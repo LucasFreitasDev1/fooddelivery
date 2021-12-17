@@ -17,16 +17,7 @@ class HomeTab extends StatelessWidget {
     QuerySnapshot productsDocuments;
     List<SlideModel> slides;
 
-    Firestore.instance
-        .collection('products')
-        .getDocuments()
-        .then((value) => productsDocuments = value);
-
-    Firestore.instance.collection('slides').getDocuments().then(
-      (value) {
-        value.documents.map((e) => slides.add(SlideModel.fromDocument(e)));
-      },
-    );
+    
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
@@ -40,8 +31,7 @@ class HomeTab extends StatelessWidget {
         children: <Widget>[
           FirstHalf(),
           TabCategories(),
-          CarouselSliderHome(
-              slides: slides, productsSnapshot: productsDocuments),
+          CarouselSliderHome(),
           ListProductInitial(),
         ],
       )),
