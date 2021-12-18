@@ -13,6 +13,7 @@ class ButtonCart extends StatelessWidget {
       },
       child: ScopedModelDescendant<CartModel>(
         builder: (context, child, model) => Container(
+          alignment: Alignment.center,
           margin: EdgeInsets.only(right: 0),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -20,20 +21,22 @@ class ButtonCart extends StatelessWidget {
                 Icon(
                   Icons.local_grocery_store,
                   color: Colors.white,
+                  size: 18,
                 ),
-                Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
+                Padding(padding: EdgeInsets.symmetric(horizontal: 2)),
                 Text(
                   model.products.length.toString(),
                   style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 14.0,
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
                 ),
               ]),
-          padding: EdgeInsets.all(15),
-          width: 90,
+          //padding: EdgeInsets.all(15),
+          width: 60,
+          height: 50,
           decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).primaryColor.withRed(100).withAlpha(190),
               borderRadius: BorderRadius.circular(50)),
         ),
       ),

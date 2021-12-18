@@ -21,7 +21,7 @@ class HomeTab extends StatelessWidget {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 50),
+        padding: const EdgeInsets.only(top: 22),
         child: ButtonCart(),
       ),
       drawer: CustomDrawer(_pageController),
