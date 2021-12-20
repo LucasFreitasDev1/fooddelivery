@@ -4,7 +4,7 @@ class ProductData {
   String id;
   String adminId;
   String title;
-  double price;
+  String price;
   List images;
   String store;
   String category;
