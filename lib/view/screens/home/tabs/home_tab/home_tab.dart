@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/model/slide_model.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/buttonToCart.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/carousel_slider_home.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/firstHalf.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/list_product_initial.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/tab_categories.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/trendings_foods_home.dart';
 import 'package:food_delivery_app/view/screens/home/widgets/drawer.dart';
 
 class HomeTab extends StatelessWidget {
@@ -11,20 +15,13 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*     LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
-
-      isLocal =
-          _loginBloc.userModel.address['cidade'].toLowerCase() == 'carinhanha'; 
-
-    showDialog(
-        context: null,
-        builder: (context) => _buildDialog(),
-        barrierDismissible: false); */
+    QuerySnapshot productsDocuments;
+    List<SlideModel> slides;
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 50),
+        padding: const EdgeInsets.only(top: 22),
         child: ButtonCart(),
       ),
       drawer: CustomDrawer(_pageController),
@@ -33,6 +30,8 @@ class HomeTab extends StatelessWidget {
         children: <Widget>[
           FirstHalf(),
           TabCategories(),
+          CarouselSliderHome(),
+          TrendingsFoodsHome(),
           ListProductInitial(),
         ],
       )),
