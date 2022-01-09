@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/view/screens/category/categoryPage.dart';
+import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/button_category.dart';
 
 class TabCategories extends StatelessWidget {
   @override
@@ -33,7 +34,10 @@ class TabCategories extends StatelessWidget {
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => CategoryPage(snapshot)));
       },
-      child: Container(
+      child: ButtonCategory(imgUrl: snapshot.data['img'],)
+      
+      /* 
+      Container(
         width: 115.0,
         margin: EdgeInsets.only(right: 10.0),
         alignment: Alignment.center,
@@ -46,6 +50,8 @@ class TabCategories extends StatelessWidget {
               color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.w500),
         ),
       ),
+ */
+
     );
   }
 }

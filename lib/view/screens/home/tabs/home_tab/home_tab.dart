@@ -30,6 +30,7 @@ class HomeTab extends StatelessWidget {
         children: <Widget>[
           FirstHalf(),
           TabCategories(),
+          SizedBox(height: 20),
           CarouselSliderHome(),
           TrendingsFoodsHome(),
           ListProductInitial(),

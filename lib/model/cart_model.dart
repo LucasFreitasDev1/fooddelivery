@@ -108,11 +108,14 @@ class CartModel extends Model {
   }
 
   double getProductsPriceAdmin(String adminId) {
-    double price = 0.0;
+    double total = 0.0;
+
     for (CartProduct c in products[adminId]) {
-      if (c.productData != null) price += c.quantity * c.productData.price;
+      String price = c.productData.price.replaceAll(',', '.');
+      
+      if (c.productData != null) total += c.quantity * double.parse(price);
     }
-    return price;
+    return total;
   }
 
   double getDiscount(String adminId) {

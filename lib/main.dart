@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           title: "Vem",
           home: HomeScreen(),
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(primaryColor: Colors.teal[400]),
+          theme: ThemeData(primaryColor: Colors.teal[400], primaryColorDark: Color(0x01403A)),
         ),
       ),
     );

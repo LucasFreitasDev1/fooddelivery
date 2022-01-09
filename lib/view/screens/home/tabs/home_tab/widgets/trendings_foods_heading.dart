@@ -15,13 +15,13 @@ class TrendingsFoodsHeading extends StatelessWidget {
         ),
         title: Text(
           'Mais vendidos',
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headline6,
         ),
-        subtitle: Text(
+        /* subtitle: Text(
           'Click para ver mais',
           maxLines: 2,
-          style: Theme.of(context).textTheme.caption,
-        ),
+          style: Theme.of(context).textTheme.caption, 
+        ),*/
       ),
     );
   }

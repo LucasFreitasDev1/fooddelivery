@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/trendings_food_loader.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/trendings_foods_heading.dart';
 
 class TrendingsFoodsHome extends StatelessWidget {
@@ -10,7 +8,11 @@ class TrendingsFoodsHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 20),
+        
         TrendingsFoodsHeading(),
+
+        /* 
         FutureBuilder<QuerySnapshot>(
             future: Firestore.instance.collection('products').getDocuments(),
             builder: (context, snapshot) {
@@ -43,7 +45,9 @@ class TrendingsFoodsHome extends StatelessWidget {
                         ));
               }
               return Container();
-            }),
+            }), 
+            */
+
       ],
     );
   }

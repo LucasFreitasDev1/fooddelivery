@@ -15,17 +15,19 @@ class ProductTile extends StatelessWidget {
             MaterialPageRoute(builder: (context) => ProductScreen(product)));
       },
       child: Card(
-          margin: EdgeInsets.all(10),
+          margin: EdgeInsets.all(10),          
           elevation: 8.0,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              AspectRatio(
-                aspectRatio: 1.40,
-                child: Image.network(
-                  product.images[0],
-                  fit: BoxFit.contain,
+              Expanded(
+                              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.network(
+                    product.images[0],
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Container(
@@ -40,7 +42,7 @@ class ProductTile extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      "R\$ ${product.price.toStringAsFixed(2)}",
+                      "R\$ ${product.price}",
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 17.0,
