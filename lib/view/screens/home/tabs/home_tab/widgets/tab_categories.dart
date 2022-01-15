@@ -14,7 +14,7 @@ class TabCategories extends StatelessWidget {
         else
           return Container(
             height: 70,
-            padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+            padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10.0),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: snapshot.data.documents.length,
@@ -30,11 +30,14 @@ class TabCategories extends StatelessWidget {
 
   _buttonCategory(BuildContext context, DocumentSnapshot snapshot) {
     return GestureDetector(
-      onTap: () {
+      /* onTap: () {
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => CategoryPage(snapshot)));
-      },
-      child: ButtonCategory(imgUrl: snapshot.data['img'],)
+      }, */
+      child: ButtonCategory(imgUrl: snapshot.data['img'], onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => CategoryPage(snapshot)));
+      })
       
       /* 
       Container(
