@@ -3,14 +3,7 @@ class UserClientModel {
   String name;
   String email;
   String uid;
-  Map address = {
-    'cidade': '',
-    'bairro': '',
-    'estado': '',
-    'complemento': '',
-    'referencia': '',
-    'rua': '',
-  };
+  Map address ;
 
   UserClientModel({this.phone, this.email, this.name, this.uid, this.address});
 

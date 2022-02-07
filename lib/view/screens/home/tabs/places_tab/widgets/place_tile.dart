@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/blocs/whatsapp_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PlaceTile extends StatelessWidget {
@@ -15,20 +16,13 @@ class PlaceTile extends StatelessWidget {
     String bairro = snapshot.data['address']['bairro'];
     String cidade = snapshot.data['address']['cidade'];
     String estado = snapshot.data['address']['estado'];
+    final String number = snapshot.data["phone"];
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          /* 
-          SizedBox(
-            height: 100.0,
-            child: Image.network(
-              snapshot.data["image"],
-              fit: BoxFit.cover,
-            ),
-          ), */
           Container(
             padding: EdgeInsets.all(8.0),
             child: Column(
@@ -40,7 +34,7 @@ class PlaceTile extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
                 ),
                 Text(
-                  '$rua, $compl, \n$ref, \n$bairro, \n$cidade, \n$estado',
+                  '$rua, $compl, \n$ref, $bairro, $cidade, $estado',
                   textAlign: TextAlign.start,
                 )
               ],
@@ -49,18 +43,20 @@ class PlaceTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              /* FlatButton(
-                child: Text("Ver no Mapa"),
+               FlatButton(
+                child: Text("Ver WhatsApp"),
                 textColor: Colors.blue,
                 padding: EdgeInsets.zero,
-                onPressed: () {},
-              ), */
+                onPressed: () =>
+                  WhatsAppApi.abrirWhatsApp(number)
+                
+              ), 
               FlatButton(
                 child: Text("Ligar"),
                 textColor: Colors.blue,
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  launch("tel:${snapshot.data["phone"]}");
+                  launch("tel:$number");
                 },
               ),
             ],

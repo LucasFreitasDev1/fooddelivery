@@ -44,9 +44,10 @@ class OrdersTab extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      Icons.view_list,
+                      Icons.lock,
                       size: 80.0,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).primaryColor.withOpacity(0.5),
+                    
                     ),
                     SizedBox(
                       height: 16.0,

@@ -8,27 +8,28 @@ import 'package:food_delivery_app/view/tiles/drawer_tile.dart';
 class CustomDrawer extends StatelessWidget {
   final PageController pageController;
   CustomDrawer(this.pageController);
-  final List<Color> colorsGradient = [Colors.lightBlue[50], Colors.white];
 
   @override
   Widget build(BuildContext context) {
     LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
-    Widget _buildDrawerBack() => Container(
-          decoration: BoxDecoration(
-            color: Colors.lightBlue[50],
-            /* 
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                List: colorsGradient), */
-          ),
-        );
 
     return Drawer(
       elevation: 20,
       child: Stack(
-        children: <Widget>[
-          _buildDrawerBack(),
+        children: [
+          Expanded(
+              child: Column(
+            children: [
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                color: Colors.teal[600],
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20))
+
+                ),
+              )
+            ],
+          ),),
           ListView(
             padding: EdgeInsets.only(left: 32.0, top: 18.0),
             children: <Widget>[
@@ -36,15 +37,19 @@ class CustomDrawer extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 8.0),
                 padding: EdgeInsets.fromLTRB(0.0, 16.0, 16.0, 8.0),
                 height: 170.0,
-                child: Stack(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Positioned(
-                      top: 8.0,
-                      left: 0.0,
+                    Container(
+                      padding: EdgeInsets.only(bottom: 18),
                       child: Text(
                         "Vem\nDelivery",
                         style: TextStyle(
-                            fontSize: 34.0, fontWeight: FontWeight.bold),
+                            fontSize: 34.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ),
                     StreamBuilder<LoginState>(
@@ -52,40 +57,38 @@ class CustomDrawer extends StatelessWidget {
                         builder: (context, state) {
                           bool isLoggedIn =
                               state.data == LoginState.SUCCESS ? true : false;
-                          return Positioned(
-                            left: 0.0,
-                            bottom: 0.0,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Olá,  ${isLoggedIn ? loginBloc.userModel.name : ''}',
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Olá,  ${isLoggedIn ? loginBloc.userModel.name : ''}',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              GestureDetector(
+                                child: Text(
+                                  !isLoggedIn
+                                      ? "Entre ou cadastre-se >"
+                                      : "Sair",
                                   style: TextStyle(
-                                      fontSize: 18.0,
+                                      //color: Theme.of(context).accentColor,
+                                      color: Colors.tealAccent,
+                                      fontSize: 16.0,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                GestureDetector(
-                                  child: Text(
-                                    !isLoggedIn
-                                        ? "Entre ou cadastre-se >"
-                                        : "Sair",
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  onTap: () {
-                                    if (!isLoggedIn)
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginScreen()));
-                                    else
-                                      loginBloc.signOut();
-                                  },
-                                )
-                              ],
-                            ),
+                                onTap: () {
+                                  if (!isLoggedIn)
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginScreen()));
+                                  else
+                                    loginBloc.signOut();
+                                },
+                              )
+                            ],
                           );
                         })
                   ],
@@ -93,11 +96,11 @@ class CustomDrawer extends StatelessWidget {
               ),
               Divider(),
               DrawerTile(Icons.home, "Início", pageController, 0),
-              DrawerTile(Icons.location_on, "Anunciantes", pageController, 1),
+              DrawerTile(Icons.store, "Anunciantes", pageController, 1),
               DrawerTile(
                   Icons.playlist_add_check, "Meus Pedidos", pageController, 2),
             ],
-          )
+          ),
         ],
       ),
     );
