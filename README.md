@@ -6,8 +6,10 @@ Um Aplicativo Flutter
 
 Esse projeto se trata de um aplicativo para delivery de comida/bebidas, inspirado no iFood e semelhantes. Faltam apenas alguns ajustes para poder publicá-lo (fazer deploy), nas lojas de apps.
 
-Versão do FLutter usada:
+Como backend é usado o Firebase, com o Firestore e as push notifications, e refatorado para a arquitetura MVC.
 
+Versão do FLutter usada:
+1.18.x
 
 <img src="/screenshots/screenshot.png" width="200">  
 <img src="/screenshots/screenshot1.jpg" width="200">  
