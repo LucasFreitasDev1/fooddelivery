@@ -8,8 +8,9 @@ Esse projeto se trata de um aplicativo para delivery de comida/bebidas, inspirad
 
 Versão do FLutter usada:
 
-<img src="/screenshots/screenshot.png" width="200">
-<img src="/screenshots/screenshot1.jpg" width="200">
+
+<img src="/screenshots/screenshot.png" width="200">  
+<img src="/screenshots/screenshot1.jpg" width="200">  
 <img src="/screenshots/screenshot2.jpg" width="200">
 <img src="/screenshots/screenshot3.jpg" width="200">
 <img src="/screenshots/screenshot4.jpg" width="200">
