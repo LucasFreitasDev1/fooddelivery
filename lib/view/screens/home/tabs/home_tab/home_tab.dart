@@ -15,13 +15,13 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    QuerySnapshot productsDocuments;
-    List<SlideModel> slides;
+    /* QuerySnapshot productsDocuments;
+    List<SlideModel> slides; */
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 22),
+        padding: const EdgeInsets.only(top: 140),
         child: ButtonCart(),
       ),
       drawer: CustomDrawer(_pageController),

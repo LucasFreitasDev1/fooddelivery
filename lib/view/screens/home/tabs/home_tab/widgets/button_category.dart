@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -7,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ButtonCategory extends StatefulWidget {
-  
-
   ButtonCategory({Key key, @required this.imgUrl, @required this.onTap});
 
   final String imgUrl;
@@ -37,7 +34,8 @@ class _ButtonCategoryState extends State<ButtonCategory> {
       clipBehavior: Clip.hardEdge,
       margin: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).primaryColor),
+          border:
+              Border.all(color: Colors.grey), //Theme.of(context).primaryColor
           borderRadius: BorderRadius.circular(50)),
       child: InkWell(
         borderRadius: BorderRadius.circular(50),
@@ -51,7 +49,7 @@ class _ButtonCategoryState extends State<ButtonCategory> {
                   initialData: '',
                   future: ref.data.getDownloadURL(),
                   builder: (context, snapshot) {
-                    log(snapshot.data?.toString());
+                    debugPrint(snapshot.data?.toString());
 
                     if (snapshot.hasData)
                       return Padding(
