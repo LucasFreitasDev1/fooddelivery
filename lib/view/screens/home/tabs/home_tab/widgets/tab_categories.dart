@@ -9,9 +9,19 @@ class TabCategories extends StatelessWidget {
     return FutureBuilder<QuerySnapshot>(
       future: Firestore.instance.collection('category').getDocuments(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Center();
-        else
+        if (snapshot.hasError)
+          return Container(
+            padding: EdgeInsets.all(8),
+            alignment: Alignment.centerLeft,
+            height: 70,
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.error_outline),
+                Text('Erro ao carregar categorias'),
+              ],
+            ),
+          );
+        else if (snapshot.hasData) {
           return Container(
             height: 70,
             padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10.0),
@@ -24,22 +34,28 @@ class TabCategories extends StatelessWidget {
               },
             ),
           );
+        }
+
+        // Default
+        return Container();
       },
     );
   }
 
   _buttonCategory(BuildContext context, DocumentSnapshot snapshot) {
     return GestureDetector(
-      /* onTap: () {
+        /* onTap: () {
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => CategoryPage(snapshot)));
       }, */
-      child: ButtonCategory(imgUrl: snapshot.data['img'], onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => CategoryPage(snapshot)));
-      })
-      
-      /* 
+        child: ButtonCategory(
+            imgUrl: snapshot.data['img'],
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CategoryPage(snapshot)));
+            })
+
+        /* 
       Container(
         width: 115.0,
         margin: EdgeInsets.only(right: 10.0),
@@ -55,6 +71,6 @@ class TabCategories extends StatelessWidget {
       ),
  */
 
-    );
+        );
   }
 }

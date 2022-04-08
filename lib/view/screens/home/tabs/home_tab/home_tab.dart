@@ -7,37 +7,48 @@ import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/tab_ca
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/trendings_foods_home.dart';
 import 'package:food_delivery_app/view/screens/home/widgets/drawer.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   final PageController _pageController;
   HomeTab(this._pageController);
 
+  @override
+  _HomeTabState createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     /* QuerySnapshot productsDocuments;
     List<SlideModel> slides; */
 
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 140),
-        child: ButtonCart(),
+    return RefreshIndicator(
+      displacement: 50,
+      onRefresh: () async {
+        await Future.delayed(Duration(seconds: 1));
+        setState(() {});
+      },
+      child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(top: 140),
+          child: ButtonCart(),
+        ),
+        drawer: CustomDrawer(widget._pageController),
+        body: SafeArea(
+            child: ListView(
+          children: <Widget>[
+            FirstHalf(),
+            TabCategories(),
+            SizedBox(height: 20),
+            CarouselSliderHome(),
+            TrendingsFoodsHome(),
+            ListProductInitial(),
+          ],
+        )),
       ),
-      drawer: CustomDrawer(_pageController),
-      body: SafeArea(
-          child: ListView(
-        children: <Widget>[
-          FirstHalf(),
-          TabCategories(),
-          SizedBox(height: 20),
-          CarouselSliderHome(),
-          TrendingsFoodsHome(),
-          ListProductInitial(),
-        ],
-      )),
     );
   }
 
-  // ignore: unused_element
   Dialog _buildDialog() {
     return Dialog(
       backgroundColor: Colors.grey[500],

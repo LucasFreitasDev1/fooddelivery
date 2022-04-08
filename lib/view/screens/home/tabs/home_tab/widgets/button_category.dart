@@ -31,6 +31,7 @@ class _ButtonCategoryState extends State<ButtonCategory> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 62,
       clipBehavior: Clip.hardEdge,
       margin: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
@@ -49,18 +50,15 @@ class _ButtonCategoryState extends State<ButtonCategory> {
                   initialData: '',
                   future: ref.data.getDownloadURL(),
                   builder: (context, snapshot) {
-                    debugPrint(snapshot.data?.toString());
-
-                    if (snapshot.hasData)
+                    if (snapshot.hasData) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: CachedNetworkImage(
                           imageUrl: snapshot.data.toString(),
                         ),
                       );
-                    return Container(
-                      color: Colors.grey,
-                    );
+                    }
+                    return Container();
                   });
             return CircularProgressIndicator();
           },
