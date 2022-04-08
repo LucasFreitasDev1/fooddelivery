@@ -39,14 +39,15 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
               alignment: AlignmentDirectional.bottomCenter,
               fit: StackFit.passthrough,
               children: [
-                CarouselSlider.builder(
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) {
-                    SlideModel slide = SlideModel.fromDocument(
-                        snapshot.data.documents.elementAt(index));
+                Container(
+                  padding: EdgeInsets.only(bottom: 12),
+                  child: CarouselSlider.builder(
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) {
+                      SlideModel slide = SlideModel.fromDocument(
+                          snapshot.data.documents.elementAt(index));
 
-                    return Container(
-                      child: Container(
+                      return Container(
                         margin: EdgeInsets.all(5.0),
                         child: ClipRRect(
                             borderRadius:
@@ -78,24 +79,25 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                                 ),
                               ],
                             )),
-                      ),
-                    );
-                  },
-                  options: CarouselOptions(
-                      onPageChanged: (item, reason) {
-                        setState(() {
-                          _current = item;
-                        });
-                      },
-                      autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 5),
-                      height: 180,
-                      enlargeCenterPage: true),
+                      );
+                    },
+                    options: CarouselOptions(
+                        onPageChanged: (item, reason) {
+                          setState(() {
+                            _current = item;
+                          });
+                        },
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 5),
+                        height: 180,
+                        enlargeCenterPage: true),
+                  ),
                 ),
 
                 /// Indicação de slide
                 ///
                 Container(
+                  padding: EdgeInsets.only(top: 50),
                   alignment: Alignment.bottomCenter,
                   //margin: EdgeInsets.symmetric(vertical: 22, horizontal: 42),
                   child: Row(
@@ -104,8 +106,8 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                       return Container(
                         width: 6,
                         height: 6,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 2.0),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 0, horizontal: 5.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
                               Radius.circular(8),
