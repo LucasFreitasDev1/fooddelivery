@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/model/slide_model.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/buttonToCart.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/carousel_slider_home.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/firstHalf.dart';

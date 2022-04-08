@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +94,7 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                 ),
 
                 /// Indicação de slide
-                /// 
+                ///
                 Container(
                   alignment: Alignment.bottomCenter,
                   //margin: EdgeInsets.symmetric(vertical: 22, horizontal: 42),
@@ -117,7 +115,6 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                                         (element) =>
                                             element.documentID ==
                                             slide.documentID)
-
                                 ? Colors.blueGrey
                                 : Colors.blueGrey.withOpacity(0.3)),
                       );

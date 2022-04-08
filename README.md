@@ -9,7 +9,7 @@ Esse projeto se trata de um aplicativo para delivery de comida/bebidas, inspirad
 Como backend é usado o Firebase, com o Firestore e as push notifications, e refatorado para a arquitetura MVC.
 
 Versão do FLutter usada:
-1.18.x
+1.17.5
 
 <img src="/screenshots/screenshot.png" width="200">  
 <img src="/screenshots/screenshot1.jpg" width="200">  

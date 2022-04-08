@@ -18,7 +18,7 @@ class SlideModel {
       this.food = snapshot.data['foodId'] ?? '';
       this.enabled = snapshot.data['enabled'] ?? false;
       this.orderId = snapshot.data['orderId'] ?? '';
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       throw 'No found';
     }
   }
