@@ -1,7 +1,9 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/data/productData.dart';
+import 'package:food_delivery_app/blocs/home_bloc.dart';
+import 'package:food_delivery_app/model/productData.dart';
 import 'package:food_delivery_app/model/slide_model.dart';
 import 'package:food_delivery_app/view/screens/cart/cart_screen.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/carousel_slider_loader.dart';
@@ -17,22 +19,17 @@ class CarouselSliderHome extends StatefulWidget {
 class _CarouselSliderHomeState extends State<CarouselSliderHome> {
   var _current = 0;
 
-  QuerySnapshot productsSnapshot;
-
   @override
   initState() {
-    Firestore.instance
-        .collection('products')
-        .getDocuments()
-        .then((value) => productsSnapshot = value);
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<HomeBloc>(context);
+
     return FutureBuilder<QuerySnapshot>(
-        future: Firestore.instance.collection('slides').getDocuments(),
+        future: bloc.getSlides(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Stack(
@@ -57,18 +54,22 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                                 GestureDetector(
                                   child: Image.network(slide.imageFit,
                                       fit: BoxFit.cover),
-                                  onTap: slide.store.isEmpty &&
-                                          slide.food.isEmpty
+                                  onTap: slide.storeId.isEmpty &&
+                                          slide.foodId.isEmpty
                                       ? () {}
                                       : () => Navigator.of(context).push(
                                             MaterialPageRoute(builder: (_) {
-                                              if (slide.food != '') {
-                                                return ProductScreen(
-                                                  ProductData.fromDocument(
-                                                      productsSnapshot.documents
-                                                          .single[slide.food]),
-                                                );
-                                              } else if (slide.store != '') {
+                                              if (slide.foodId != '') {
+                                                bloc
+                                                    .getProductFromId(
+                                                        slide.foodId)
+                                                    .then((value) {
+                                                  return ProductScreen(
+                                                    ProductData.fromDocument(
+                                                        value),
+                                                  );
+                                                });
+                                              } else if (slide.storeId != '') {
                                                 ///apenas um teste
                                                 ///falta criar pagina para restaurante
                                                 return CartPage();

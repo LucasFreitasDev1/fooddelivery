@@ -27,33 +27,57 @@ class OrderTile extends StatelessWidget {
                 else {
                   int status = snapshot.data["status"];
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  var dateTime;
+
+                  if (snapshot.data['data'].runtimeType == String) {
+                    dateTime = snapshot.data['data'] as String;
+                  } else if (snapshot.data['data'].runtimeType == Timestamp) {
+                    Timestamp timestamp = snapshot.data['data'];
+                    dateTime = timestamp.toDate();
+                  }
+
+                  return ExpansionTile(
+                    title: Text(
+                      orderId,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    subtitle: Text(
+                      dateTime.runtimeType == String
+                          ? dateTime.toString().substring(0, 19)
+                          : '${dateTime.day.toString()}/${dateTime.month.toString()}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}',
+                      style: TextStyle(color: Colors.grey, fontSize: 11),
+                    ),
+                    //
                     children: <Widget>[
-                      Text(
-                        "Código do pedido: ${snapshot.data.documentID}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                      /*  Text(
+                            "Código do pedido: ${snapshot.data.documentID}",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ), 
                       SizedBox(
                         height: 4.0,
-                      ),
-                      Text(_buildProductsText(snapshot.data)),
-                      SizedBox(
-                        height: 4.0,
-                      ),
-                      Text(
-                        "Total: R\$ ${snapshot.data["totalPrice"].toStringAsFixed(2)}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      Text(
-                        "Status do Pedido:",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 4.0,
+                      ),*/
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(_buildProductsText(snapshot.data)),
+                          SizedBox(
+                            height: 4.0,
+                          ),
+                          Text(
+                            "Total: R\$ ${snapshot.data["totalPrice"].toString()}",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text(
+                            "Status do Pedido:",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 4.0,
+                          ),
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -77,14 +101,16 @@ class OrderTile extends StatelessWidget {
                   );
                 }
               }),
-        ));
+        )
+
+        /*  */);
   }
 
   String _buildProductsText(DocumentSnapshot snapshot) {
     String text = "Descrição:";
     for (LinkedHashMap p in snapshot.data["products"]) {
       text +=
-          "\n${p["quantity"]} x ${p["product"]["title"]} (R\$ ${p["product"]["price"].toStringAsFixed(2)})";
+          "\n${p["quantity"]} x ${p["product"]["title"]} (R\$ ${p["product"]["price"].toString()})";
     }
     return text;
   }
@@ -109,9 +135,9 @@ class OrderTile extends StatelessWidget {
             title,
             style: TextStyle(color: Colors.white),
           ),
-          CircularProgressIndicator(
+          /*  CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-          )
+          ) */
         ],
       );
     } else {

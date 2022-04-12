@@ -8,7 +8,7 @@ class TrendingsFoodsHeading extends StatelessWidget {
     return Container(
       child: ListTile(
         dense: true,
-        contentPadding: EdgeInsets.symmetric(horizontal: 20),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10),
         leading: Icon(
           Icons.trending_up,
           color: Theme.of(context).hintColor,

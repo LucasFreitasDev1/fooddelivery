@@ -4,7 +4,6 @@ import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/carous
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/firstHalf.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/list_product_initial.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/tab_categories.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/trendings_foods_home.dart';
 import 'package:food_delivery_app/view/screens/home/widgets/drawer.dart';
 
 class HomeTab extends StatefulWidget {
@@ -41,7 +40,7 @@ class _HomeTabState extends State<HomeTab> {
             TabCategories(),
             SizedBox(height: 20),
             CarouselSliderHome(),
-            TrendingsFoodsHome(),
+            //TrendingsFoodsHome(),
             ListProductInitial(),
           ],
         )),

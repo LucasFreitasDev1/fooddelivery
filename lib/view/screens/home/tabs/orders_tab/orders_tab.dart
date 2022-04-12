@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/view/screens/login/login_screen.dart';
-import 'package:food_delivery_app/view/tiles/order_tile.dart';
+
+import 'widgets/order_tile.dart';
 
 class OrdersTab extends StatelessWidget {
   @override
@@ -21,19 +22,18 @@ class OrdersTab extends StatelessWidget {
                   .collection("orders")
                   .getDocuments(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData)
+                if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                else {
-                  return ListView(
-                    children: snapshot.data.documents
-                        .map((doc) => OrderTile(doc.documentID))
-                        .toList()
-                        .reversed
-                        .toList(),
-                  );
                 }
+                return ListView(
+                  children: snapshot.data.documents
+                      .map((doc) => OrderTile(doc.documentID))
+                      .toList()
+                      .reversed
+                      .toList(),
+                );
               },
             );
           } else {
@@ -47,7 +47,6 @@ class OrdersTab extends StatelessWidget {
                       Icons.lock,
                       size: 80.0,
                       color: Theme.of(context).primaryColor.withOpacity(0.5),
-                    
                     ),
                     SizedBox(
                       height: 16.0,

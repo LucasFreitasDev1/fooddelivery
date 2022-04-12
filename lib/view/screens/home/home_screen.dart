@@ -1,4 +1,6 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/blocs/home_bloc.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/home_tab.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/orders_tab/orders_tab.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/places_tab/places_tab.dart';
@@ -13,7 +15,10 @@ class HomeScreen extends StatelessWidget {
       controller: _pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        HomeTab(_pageController),
+        BlocProvider(
+          bloc: HomeBloc(),
+          child: HomeTab(_pageController),
+        ),
         Scaffold(
           appBar: AppBar(
             title: Text("Lojas"),

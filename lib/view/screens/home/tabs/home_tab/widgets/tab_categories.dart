@@ -1,13 +1,16 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/view/screens/category/categoryPage.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/button_category.dart';
+import '../../../../../../blocs/home_bloc.dart';
+import '../../../../../screens/category/categoryPage.dart';
+import '../widgets/button_category.dart';
 
 class TabCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<HomeBloc>(context);
     return FutureBuilder<QuerySnapshot>(
-      future: Firestore.instance.collection('category').getDocuments(),
+      future: bloc.getCategories(),
       builder: (context, snapshot) {
         if (snapshot.hasError)
           return Container(
@@ -29,48 +32,20 @@ class TabCategories extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
-                return _buttonCategory(
-                    context, snapshot.data.documents.elementAt(index));
+                return ButtonCategory(
+                    imgUrl: snapshot.data.documents.elementAt(index)['img'],
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CategoryPage(
+                              snapshot.data.documents.elementAt(index))));
+                    });
               },
             ),
           );
         }
-
         // Default
         return Container();
       },
     );
-  }
-
-  _buttonCategory(BuildContext context, DocumentSnapshot snapshot) {
-    return GestureDetector(
-        /* onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => CategoryPage(snapshot)));
-      }, */
-        child: ButtonCategory(
-            imgUrl: snapshot.data['img'],
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => CategoryPage(snapshot)));
-            })
-
-        /* 
-      Container(
-        width: 115.0,
-        margin: EdgeInsets.only(right: 10.0),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(30.0)),
-        child: Text(
-          snapshot.documentID,
-          style: TextStyle(
-              color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.w500),
-        ),
-      ),
- */
-
-        );
   }
 }

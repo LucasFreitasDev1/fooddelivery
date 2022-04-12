@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/data/productData.dart';
+import 'package:food_delivery_app/model/productData.dart';
 import 'package:food_delivery_app/view/screens/product/productPage.dart';
 
 class ProductTile extends StatelessWidget {
@@ -15,14 +15,14 @@ class ProductTile extends StatelessWidget {
             MaterialPageRoute(builder: (context) => ProductScreen(product)));
       },
       child: Card(
-          margin: EdgeInsets.all(10),          
+          margin: EdgeInsets.all(10),
           elevation: 8.0,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                              child: Padding(
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Image.network(
                     product.images[0],

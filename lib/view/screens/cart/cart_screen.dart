@@ -6,7 +6,7 @@ import 'package:food_delivery_app/view/screens/cart/widgets/cart_price_total.dar
 import 'package:food_delivery_app/view/screens/cart/widgets/discount_card.dart';
 import 'package:food_delivery_app/view/screens/login/login_screen.dart';
 import 'package:food_delivery_app/view/screens/order/order_screen.dart';
-import 'package:food_delivery_app/view/tiles/cart_tile.dart';
+import 'package:food_delivery_app/view/screens/cart/widgets/cart_tile.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartPage extends StatelessWidget {

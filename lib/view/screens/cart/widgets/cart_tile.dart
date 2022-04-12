@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/data/cart_product.dart';
-import 'package:food_delivery_app/data/productData.dart';
+import 'package:food_delivery_app/model/cart_product.dart';
+import 'package:food_delivery_app/model/productData.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
 
 class CartTile extends StatelessWidget {
