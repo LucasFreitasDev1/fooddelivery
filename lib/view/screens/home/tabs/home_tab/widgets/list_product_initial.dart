@@ -1,5 +1,7 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/blocs/home_bloc.dart';
 import 'package:food_delivery_app/model/productData.dart';
 import 'package:food_delivery_app/view/tiles/product_tile.dart';
 
@@ -15,8 +17,10 @@ class _ListProductInitialState extends State<ListProductInitial> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<HomeBloc>(context);
+
     return FutureBuilder<QuerySnapshot>(
-        future: Firestore.instance.collection('products').getDocuments(),
+        future: bloc.getAllProductsHomePage(),
         builder: (context, products) {
           if (!products.hasData)
             return Container(
@@ -42,60 +46,53 @@ class _ListProductInitialState extends State<ListProductInitial> {
                         child: IconButton(
                             icon: Icon(Icons.arrow_drop_down),
                             onPressed: () {
-                              Scaffold.of(context).showBottomSheet((context) {
-                                return BottomSheet(
-                                    elevation: 45,
-                                    clipBehavior: Clip.hardEdge,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(20))),
-                                    onClosing: () {},
-                                    builder: (_) {
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RadioListTile(
-                                              title: Text('Todos os produtos'),
-                                              value: ItemsDisplay.full,
-                                              groupValue: _selectDisplay,
-                                              onChanged: (ItemsDisplay value) {
-                                                setState(() {
-                                                  _selectDisplay = value;
-                                                  Future.delayed(
-                                                      Duration(
-                                                          milliseconds: 300),
-                                                      () {
-                                                    Navigator.pop(context);
-                                                  });
-                                                });
-                                              }),
-                                          RadioListTile(
-                                              title: Text('Mais vendidos'),
-                                              value: ItemsDisplay.trendings,
-                                              groupValue: _selectDisplay,
-                                              onChanged: (ItemsDisplay value) {
-                                                setState(() {
-                                                  _selectDisplay = value;
-                                                  Future.delayed(
-                                                      Duration(
-                                                          milliseconds: 300),
-                                                      () {
-                                                    Navigator.pop(context);
-                                                  });
-                                                });
-                                              })
-
-                                          /* Radio(
-                                          value: SingingCharacter.lafayette,
-                                          groupValue: _character,
-                                          onChanged: (SingingCharacter value) {
-                                            setState(() { _character = value; });
-                                          },
-                                        ), */
-                                        ],
-                                      );
-                                    });
-                              });
+                              /* 
+        Scaffold.of(context).showBottomSheet((context) {
+          return BottomSheet(
+              elevation: 45,
+              clipBehavior: Clip.hardEdge,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20))),
+              onClosing: Navigator.of(context).pop,
+              builder: (_) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    RadioListTile(
+                        title: Text('Todos os produtos'),
+                        value: ItemsDisplay.full,
+                        groupValue: _selectDisplay,
+                        onChanged: (ItemsDisplay value) {
+                          setState(() {
+                            _selectDisplay = value;
+                            Future.delayed(
+                                Duration(
+                                    milliseconds: 300),
+                                () {
+                              Navigator.pop(context);
+                            });
+                          });
+                        }),
+                    RadioListTile(
+                      title: Text('Mais vendidos'),
+                      value: ItemsDisplay.trendings,
+                      groupValue: _selectDisplay,
+                      onChanged: (ItemsDisplay value) {
+                        setState(() {
+                          _selectDisplay = value;
+                          Future.delayed(
+                              Duration(milliseconds: 300),
+                              () {
+                            Navigator.pop(context);
+                          });
+                        });
+                      },
+                    ),
+                  ],
+                );
+              });
+        }); */
                             }),
                       ),
                     ],

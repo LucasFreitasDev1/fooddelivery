@@ -17,9 +17,6 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
-    /* QuerySnapshot productsDocuments;
-    List<SlideModel> slides; */
-
     return RefreshIndicator(
       displacement: 50,
       onRefresh: () async {
@@ -40,7 +37,7 @@ class _HomeTabState extends State<HomeTab> {
             TabCategories(),
             SizedBox(height: 20),
             CarouselSliderHome(),
-            //TrendingsFoodsHome(),
+            // TrendingsFoodsHome(),
             ListProductInitial(),
           ],
         )),
