@@ -36,7 +36,7 @@ class ButtonCart extends StatelessWidget {
           width: 60,
           height: 50,
           decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).focusColor,
               borderRadius: BorderRadius.circular(50)),
         ),
       ),

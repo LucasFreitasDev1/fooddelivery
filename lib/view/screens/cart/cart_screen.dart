@@ -7,6 +7,7 @@ import 'package:food_delivery_app/view/screens/cart/widgets/discount_card.dart';
 import 'package:food_delivery_app/view/screens/login/login_screen.dart';
 import 'package:food_delivery_app/view/screens/order/order_screen.dart';
 import 'package:food_delivery_app/view/screens/cart/widgets/cart_tile.dart';
+import 'package:food_delivery_app/view/widgets/button_default.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CartPage extends StatelessWidget {
@@ -61,12 +62,11 @@ class CartPage extends StatelessWidget {
                 SizedBox(
                   height: 16.0,
                 ),
-                RaisedButton(
+                DefaultButton(
                   child: Text(
                     "Entrar",
-                    style: TextStyle(fontSize: 18.0),
+                    style: TextStyle(fontSize: 18.0, color: Colors.white),
                   ),
-                  textColor: Colors.white,
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
                     Navigator.of(context).push(

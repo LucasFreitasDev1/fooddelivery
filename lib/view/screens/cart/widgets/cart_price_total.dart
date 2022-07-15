@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import '../../../widgets/button_default.dart';
+
 class CartPrice extends StatelessWidget {
   final VoidCallback buy;
 
@@ -50,9 +52,13 @@ class CartPrice extends StatelessWidget {
                 SizedBox(
                   height: 12.0,
                 ),
-                RaisedButton(
-                  child: Text("Finalizar Pedido"),
-                  textColor: Colors.white,
+                DefaultButton(
+                  child: Text(
+                    "Finalizar Pedido",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                   color: Theme.of(context).primaryColor,
                   onPressed: buy,
                 )

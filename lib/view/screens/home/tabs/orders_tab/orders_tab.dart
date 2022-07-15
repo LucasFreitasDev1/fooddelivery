@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/view/screens/login/login_screen.dart';
 
+import '../../../../widgets/button_default.dart';
 import 'widgets/order_tile.dart';
 
 class OrdersTab extends StatelessWidget {
@@ -60,12 +61,11 @@ class OrdersTab extends StatelessWidget {
                     SizedBox(
                       height: 16.0,
                     ),
-                    RaisedButton(
+                    DefaultButton(
                       child: Text(
                         "Entrar",
-                        style: TextStyle(fontSize: 18.0),
+                        style: TextStyle(fontSize: 18.0, color: Colors.white),
                       ),
-                      textColor: Colors.white,
                       color: Theme.of(context).primaryColor,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(

@@ -1,5 +1,4 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
@@ -24,7 +23,11 @@ class MyApp extends StatelessWidget {
           title: "Vem",
           home: HomeScreen(),
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(primaryColor: Colors.teal[700], primaryColorDark: Color(0x01403A), accentColor: Colors.tealAccent[700]),
+          theme: ThemeData(
+              primaryColor: Colors.teal[700],
+              primaryColorDark: Color(0x01403A),
+              //  accentColor: Colors.tealAccent[700],
+              focusColor: Colors.tealAccent[700]),
         ),
       ),
     );

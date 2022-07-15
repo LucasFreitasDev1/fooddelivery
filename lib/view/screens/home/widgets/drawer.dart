@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
@@ -18,18 +17,18 @@ class CustomDrawer extends StatelessWidget {
       child: Stack(
         children: [
           Expanded(
-              child: Column(
-            children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                color: Colors.teal[600],
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20))
-
-                ),
-              )
-            ],
-          ),),
+            child: Column(
+              children: [
+                Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.teal[600],
+                      borderRadius:
+                          BorderRadius.only(bottomLeft: Radius.circular(20))),
+                )
+              ],
+            ),
+          ),
           ListView(
             padding: EdgeInsets.only(left: 32.0, top: 18.0),
             children: <Widget>[
@@ -73,7 +72,7 @@ class CustomDrawer extends StatelessWidget {
                                       ? "Entre ou cadastre-se >"
                                       : "Sair",
                                   style: TextStyle(
-                                      //color: Theme.of(context).accentColor,
+                                      //color: Theme.of(context).focusColor,
                                       color: Colors.tealAccent,
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold),

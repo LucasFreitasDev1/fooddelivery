@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/whatsapp_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../widgets/button_default.dart';
+
 class PlaceTile extends StatelessWidget {
   final DocumentSnapshot snapshot;
 
@@ -43,18 +45,23 @@ class PlaceTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-               FlatButton(
-                child: Text("Ver WhatsApp"),
-                textColor: Colors.blue,
-                padding: EdgeInsets.zero,
-                onPressed: () =>
-                  WhatsAppApi.abrirWhatsApp(number)
-                
-              ), 
-              FlatButton(
-                child: Text("Ligar"),
-                textColor: Colors.blue,
-                padding: EdgeInsets.zero,
+              DefaultButton(
+                  color: Colors.transparent,
+                  child: Text(
+                    "Ver WhatsApp",
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  onPressed: () => WhatsAppApi.abrirWhatsApp(number)),
+              DefaultButton(
+                color: Colors.transparent,
+                child: Text(
+                  "Ligar",
+                  style: TextStyle(
+                    color: Colors.blue,
+                  ),
+                ),
                 onPressed: () {
                   launch("tel:$number");
                 },

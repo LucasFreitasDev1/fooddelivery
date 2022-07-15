@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/model/cart_product.dart';
 import 'package:food_delivery_app/model/productData.dart';
 import 'package:food_delivery_app/model/cart_model.dart';
+import 'package:food_delivery_app/view/widgets/button_default.dart';
 
 class CartTile extends StatelessWidget {
   final CartProduct cartProduct;
@@ -68,9 +69,14 @@ class CartTile extends StatelessWidget {
                           CartModel.of(context).incProduct(cartProduct);
                         },
                       ),
-                      FlatButton(
-                        child: Text("Remover"),
-                        textColor: Colors.red,
+                      DefaultButton(
+                        child: Text(
+                          "Remover",
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                        color: Colors.transparent,
                         onPressed: () {
                           CartModel.of(context).removeCartItem(cartProduct);
                         },

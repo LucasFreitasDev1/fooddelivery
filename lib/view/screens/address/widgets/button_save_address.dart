@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/view/screens/home/home_screen.dart';
 
+import '../../../widgets/button_default.dart';
+
 class ButtonSaveAddress extends StatelessWidget {
   final Function _save;
   ButtonSaveAddress(this._save);
@@ -9,7 +11,7 @@ class ButtonSaveAddress extends StatelessWidget {
     void _onpressed() async {
       String error = await _save();
       error != ''
-          ? Scaffold.of(context).showSnackBar(SnackBar(
+          ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
                 error,
                 textAlign: TextAlign.center,
@@ -23,13 +25,15 @@ class ButtonSaveAddress extends StatelessWidget {
 
     return SizedBox(
       height: 50,
-      child: RaisedButton(
+      child: DefaultButton(
         onPressed: _onpressed,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
         color: Theme.of(context).primaryColor,
-        splashColor: Colors.grey,
-        textColor: Colors.white,
-        child: Text('Salvar Dados e Conluir'),
+        child: Text(
+          'Salvar Dados e Conluir',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

@@ -1,12 +1,11 @@
-import 'dart:ui';
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/view/screens/login/widgets/header_login.dart';
 import 'package:food_delivery_app/view/screens/signUp/sign_up_screen.dart';
 import 'package:food_delivery_app/view/widgets/input_field.dart';
+
+import '../../widgets/button_default.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -78,12 +77,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: FlatButton(
-                                padding: EdgeInsets.zero,
+                            child: DefaultButton(
+                                color: Colors.transparent,
                                 onPressed: () async {
                                   String messageError =
                                       await loginBloc.recoveryPassword();
-                                  _scaffoldKey.currentState
+                                  ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                     content: Text(messageError == ''
                                         ? "Confira seu e-mail!"
@@ -94,10 +93,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     duration: Duration(seconds: 2),
                                   ));
                                 },
-                                textColor: Colors.black54,
                                 child: Text('Esqueceu a senha?',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black54,
+                                    ))),
                           ),
                           SizedBox(height: 50),
                           //botoes
@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: 300,
                                   height: 40,
                                   child: Expanded(
-                                    child: FlatButton(
+                                    child: DefaultButton(
                                       child: Text(
                                         'Entrar',
                                         style: TextStyle(
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         if (error == '') {
                                           Navigator.pop(context);
                                         } else {
-                                          _scaffoldKey.currentState
+                                          ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(
                                             content: Text(error),
                                             backgroundColor: Colors.red,
@@ -142,8 +142,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   )),
-                  FlatButton(
-                      textColor: Colors.white,
+                  DefaultButton(
+                      color: Colors.transparent,
                       onPressed: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => SignUpScreen(),
@@ -152,7 +152,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         'Criar uma nova conta',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: Colors.white),
                       )),
                 ],
               ),

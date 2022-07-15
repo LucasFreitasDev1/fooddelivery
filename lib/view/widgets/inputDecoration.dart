@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 InputDecoration inputDecoration(
     Color primaryColor, String hintText, IconData iconData) {

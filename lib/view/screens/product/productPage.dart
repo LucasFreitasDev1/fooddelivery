@@ -7,6 +7,8 @@ import 'package:food_delivery_app/model/cart_model.dart';
 import 'package:food_delivery_app/view/screens/cart/cart_screen.dart';
 import 'package:food_delivery_app/view/screens/login/login_screen.dart';
 
+import '../../widgets/button_default.dart';
+
 class ProductScreen extends StatefulWidget {
   final ProductData product;
 
@@ -83,7 +85,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     builder: (context, snapshot) {
                       return SizedBox(
                         height: 44.0,
-                        child: RaisedButton(
+                        child: DefaultButton(
                           onPressed: () {
                             if (snapshot.data == LoginState.SUCCESS) {
                               CartProduct cartProduct = CartProduct();
@@ -107,10 +109,10 @@ class _ProductScreenState extends State<ProductScreen> {
                             snapshot.data == LoginState.SUCCESS
                                 ? "Adicionar ao Carrinho"
                                 : "Entre para Comprar",
-                            style: TextStyle(fontSize: 18.0),
+                            style:
+                                TextStyle(fontSize: 18.0, color: Colors.white),
                           ),
                           color: primaryColor,
-                          textColor: Colors.white,
                         ),
                       );
                     }),

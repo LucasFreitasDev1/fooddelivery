@@ -3,6 +3,8 @@ import 'package:food_delivery_app/blocs/sign_up_bloc.dart';
 import 'package:food_delivery_app/view/screens/address/address_screen.dart';
 import 'package:food_delivery_app/view/widgets/input_field.dart';
 
+import '../../widgets/button_default.dart';
+
 class SignUpScreen extends StatefulWidget {
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -99,9 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Container(
                           height: 45,
                           width: double.infinity,
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)),
+                          child: DefaultButton(
                             onPressed: () async {
                               String error = await _signUpBloc.signUp();
                               if (error == '') {
@@ -109,7 +109,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   builder: (context) => AddressScreen(),
                                 ));
                               } else {
-                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
                                   content: Text(error),
                                   backgroundColor: Colors.red,
                                 ));

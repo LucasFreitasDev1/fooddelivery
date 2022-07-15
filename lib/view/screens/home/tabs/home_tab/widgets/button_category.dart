@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ButtonCategory extends StatefulWidget {
   ButtonCategory({Key key, @required this.imgUrl, @required this.onTap});
