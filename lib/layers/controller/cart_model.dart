@@ -6,6 +6,8 @@ import 'package:food_delivery_app/model/cart_product.dart';
 import 'package:food_delivery_app/model/user_client_model.dart';
 import 'package:flutter/material.dart';
 
+import '../model/cart_product.dart';
+
 class CartModel {
   UserClient user;
 
@@ -13,6 +15,7 @@ class CartModel {
 
   String couponCode;
   int discountPercentage = 0;
+  var db;
 
   bool isLoading = false;
 
@@ -21,11 +24,8 @@ class CartModel {
     if (this.user.uid != null) _loadCartItems();
   }
 
-  static CartModel of(BuildContext context) =>
-      ScopedModel.of<CartModel>(context);
-
   void addCartItem(CartProduct cartProduct) {
-    Firestore.instance
+    db
         .collection("users")
         .document(user.uid)
         .collection("cart")
@@ -40,7 +40,7 @@ class CartModel {
   }
 
   void removeCartItem(CartProduct cartProduct) {
-    Firestore.instance
+    db
         .collection("users")
         .document(user.uid)
         .collection("cart")
@@ -55,7 +55,7 @@ class CartModel {
   void decProduct(CartProduct cartProduct) {
     cartProduct.quantity--;
 
-    Firestore.instance
+    db
         .collection("users")
         .document(user.uid)
         .collection("cart")
@@ -68,7 +68,7 @@ class CartModel {
   void incProduct(CartProduct cartProduct) {
     cartProduct.quantity++;
 
-    Firestore.instance
+    db
         .collection("users")
         .document(user.uid)
         .collection("cart")
@@ -112,7 +112,7 @@ class CartModel {
   }
 
   double getShipPrice(String adminId) {
-    /* Firestore.instance
+    /* db
         .collection('admins')
         .document(adminId)
         .collection('shipPrice')
@@ -152,7 +152,7 @@ class CartModel {
           .substring(2, 15);
 
       //    DocumentReference refOrder =
-      await Firestore.instance
+      await db
           .collection("orders")
           /*  .document(adminId)
           .collection(user.uid) */
@@ -171,7 +171,7 @@ class CartModel {
         "data": DateTime.now()
       });
 
-      await Firestore.instance
+      await db
           .collection("users")
           .document(user.uid)
           .collection("orders")
@@ -182,7 +182,7 @@ class CartModel {
           .document(orderId)
           .setData({"orderId": orderId});
 
-      await Firestore.instance
+      await db
           .collection("admins")
           .document(adminId)
           .collection("orders")
@@ -192,7 +192,7 @@ class CartModel {
           .document(orderId)
           .setData({"orderId": orderId});
 
-      QuerySnapshot query = await Firestore.instance
+      QuerySnapshot query = await db
           .collection("users")
           .document(user.uid)
           .collection("cart")
@@ -214,7 +214,7 @@ class CartModel {
   }
 
   Future<void> _loadCartItems() async {
-    QuerySnapshot query = await Firestore.instance
+    QuerySnapshot query = await db
         .collection("users")
         .document(user.uid)
         .collection("cart")
@@ -224,7 +224,7 @@ class CartModel {
     QuerySnapshot query2;
 
     for (DocumentSnapshot doc in query.documents) {
-      query2 = await Firestore.instance
+      query2 = await db
           .collection("users")
           .document(user.uid)
           .collection("cart")

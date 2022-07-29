@@ -1,11 +1,10 @@
-import 'package:food_delivery_app/model/user_client_model.dart';
+import '../../model/user_client_model.dart';
+import '../datasources/firebase.dart';
 
-import '../../datasources/firebase.dart';
-
-class LoginRepositoryImpl {
+class LoginRepository {
   final FirebaseDatasource _firebase;
 
-  LoginRepositoryImpl(
+  LoginRepository(
     this._firebase,
   );
 

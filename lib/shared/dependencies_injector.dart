@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 
-import '../data/datasources/firebase.dart';
+import '../layers/data/datasources/firebase.dart';
+import '../layers/controller/home_controller.dart';
+import '../layers/data/repositories/firebase/home_repository.dart';
 
 GetIt inject = GetIt.instance;
 
@@ -11,6 +13,8 @@ initGetIt() {
   inject.registerLazySingleton(() => FirebaseDatasource());
 
   //repositories
+  inject.registerLazySingleton(() => HomeRepository(inject()));
 
   //controllers
+  inject.registerLazySingleton(() => HomeController(inject()));
 }

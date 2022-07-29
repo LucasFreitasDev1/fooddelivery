@@ -8,7 +8,6 @@ import '../widgets/button_category.dart';
 class TabCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeBloc>(context);
     return FutureBuilder<QuerySnapshot>(
       future: bloc.getCategories(),
       builder: (context, snapshot) {

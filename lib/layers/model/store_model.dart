@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:food_delivery_app/model/address_model.dart';
+import 'address_model.dart';
 
 class StoreModel {
   String id;

@@ -1,4 +1,4 @@
-import 'package:food_delivery_app/model/store_model.dart';
+import 'store_model.dart';
 
 class ProductModel {
   String id;

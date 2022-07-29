@@ -41,7 +41,9 @@ dependencies:
  # mask_text_input_formatter: ^1.1.0  #2.0.0
   easy_mask: ^2.0.1
   carousel_slider: ^4.0.0
-  cached_network_image: any
+  cached_network_image: ^3.2.1
+  mobx: ^2.0.7
+  flutter_mobx: ^2.0.4
 
 
 dev_dependencies:
@@ -49,6 +51,8 @@ dev_dependencies:
     sdk: flutter
 
   flutter_launcher_icons: ^0.7.5
+  mobx_codegen: ^2.0.5+2
+  build_runner: ^2.1.8
 
 flutter_icons:
   image_path_android: 'assets/delivery-icons/android-icon-192x192.png'

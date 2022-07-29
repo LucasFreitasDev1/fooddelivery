@@ -440,7 +440,9 @@ class FirebaseDatasource {
       var doc = await _db.collection('slides').get();
 
       if (doc.docs.isNotEmpty) {
-        return doc.docs.map((e) => SlideModel.fromDocument(e)).toList();
+        return doc.docs
+            .map((e) => SlideModel.fromMap(e.data()).copyWith(id: e.id))
+            .toList();
       } else {
         log('erro ao buscar dados do produto');
         return null;

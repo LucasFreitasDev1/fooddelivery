@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:food_delivery_app/model/product_model.dart';
+
+import 'product_model.dart';
 
 class CartProduct {
   String? cid;

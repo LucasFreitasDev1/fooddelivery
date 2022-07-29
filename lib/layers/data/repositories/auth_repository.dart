@@ -1,6 +1,7 @@
 import 'dart:developer';
-import 'package:food_delivery_app/model/user_client_model.dart';
-import '../../datasources/firebase.dart';
+
+import '../../model/user_client_model.dart';
+import '../datasources/firebase.dart';
 
 class AuthRepository {
   final FirebaseDatasource _firebase;
