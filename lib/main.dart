@@ -1,35 +1,23 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
+import 'dart:developer';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/blocs/login_bloc.dart';
-import 'package:food_delivery_app/model/cart_model.dart';
-import 'package:food_delivery_app/view/screens/home/home_screen.dart';
-import 'package:scoped_model/scoped_model.dart';
 
-void main() {
+import 'app_widget.dart';
+import 'shared/dependencies_injector.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  final LoginBloc loginBloc = LoginBloc();
-  @override
-  Widget build(BuildContext context) {
-    CartModel cartModel = CartModel(loginBloc.userModel);
-    return BlocProvider<LoginBloc>(
-      bloc: loginBloc,
-      child: ScopedModel<CartModel>(
-        model: cartModel,
-        child: MaterialApp(
-          title: "Vem",
-          home: HomeScreen(),
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-              primaryColor: Colors.teal[700],
-              primaryColorDark: Color(0x01403A),
-              //  accentColor: Colors.tealAccent[700],
-              focusColor: Colors.tealAccent[700]),
-        ),
-      ),
-    );
+  await Firebase.initializeApp(
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
+  initGetIt();
+  try {
+    runApp(const AppWidget());
+  } on Exception catch (e) {
+    log(e.toString());
+    runApp(const Scaffold(
+      body: LinearProgressIndicator(),
+    ));
   }
 }

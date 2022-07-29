@@ -2,15 +2,15 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
 import 'package:food_delivery_app/model/cart_product.dart';
-import 'package:food_delivery_app/model/productData.dart';
-import 'package:food_delivery_app/model/cart_model.dart';
+import 'package:food_delivery_app/model/product_model.dart';
+import 'package:food_delivery_app/controller/cart_model.dart';
 import 'package:food_delivery_app/view/screens/cart/cart_screen.dart';
 import 'package:food_delivery_app/view/screens/login/login_screen.dart';
 
 import '../../widgets/button_default.dart';
 
 class ProductScreen extends StatefulWidget {
-  final ProductData product;
+  final ProductModel product;
 
   ProductScreen(this.product);
 
@@ -19,7 +19,7 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  final ProductData product;
+  final ProductModel product;
 
   int quantity = 1;
 
@@ -71,7 +71,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           fontSize: 14.0, fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      '${product.store}',
+                      '${product.storeName}',
                       style: TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.w500),
                     ),
@@ -92,9 +92,9 @@ class _ProductScreenState extends State<ProductScreen> {
                               cartProduct.quantity = quantity;
                               cartProduct.pid = product.id;
                               cartProduct.category = product.category;
-                              cartProduct.store = product.store;
+                              cartProduct.store = product.storeName;
                               cartProduct.productData = product;
-                              cartProduct.adminId = product.adminId;
+                              cartProduct.adminId = product.storeId;
 
                               CartModel.of(context).addCartItem(cartProduct);
 

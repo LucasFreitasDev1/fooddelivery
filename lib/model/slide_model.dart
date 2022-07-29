@@ -8,18 +8,22 @@ class SlideModel {
   String storeId;
   bool enabled;
 
-  SlideModel();
+  SlideModel(
+      {required this.id,
+      required this.enabled,
+      required this.foodId,
+      required this.imageFit,
+      required this.orderId,
+      required this.storeId});
 
-  SlideModel.fromDocument(DocumentSnapshot snapshot) {
-    try {
-      this.id = snapshot.documentID;
-      this.storeId = snapshot.data['storeId'] ?? '';
-      this.imageFit = snapshot.data['imageFit'] ?? '';
-      this.foodId = snapshot.data['foodId'] ?? '';
-      this.enabled = snapshot.data['enabled'] ?? false;
-      this.orderId = snapshot.data['orderId'] ?? '';
-    } on Exception catch (_) {
-      throw 'No found';
-    }
+  static SlideModel fromDocument(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    return SlideModel(
+        id: snapshot.id,
+        enabled: snapshot.data()?['enabled'] ?? false,
+        foodId: snapshot.data()?['foodId'].toString() ?? '',
+        imageFit: snapshot.data()?['imageFit'].toString() ?? '',
+        orderId: snapshot.data()?['orderId'].toString() ?? '',
+        storeId: snapshot.data()?['storeId'].toString() ?? '');
   }
 }

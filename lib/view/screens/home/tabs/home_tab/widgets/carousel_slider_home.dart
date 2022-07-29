@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/home_bloc.dart';
-import 'package:food_delivery_app/model/productData.dart';
+import 'package:food_delivery_app/model/product_model.dart';
 import 'package:food_delivery_app/model/slide_model.dart';
 import 'package:food_delivery_app/view/screens/cart/cart_screen.dart';
 import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/carousel_slider_loader.dart';
@@ -65,7 +65,7 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                                                         slide.foodId)
                                                     .then((value) {
                                                   return ProductScreen(
-                                                    ProductData.fromDocument(
+                                                    ProductModel.fromDocument(
                                                         value),
                                                   );
                                                 });

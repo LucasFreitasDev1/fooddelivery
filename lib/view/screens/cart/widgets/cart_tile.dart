@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/model/cart_product.dart';
-import 'package:food_delivery_app/model/productData.dart';
-import 'package:food_delivery_app/model/cart_model.dart';
+import 'package:food_delivery_app/model/product_model.dart';
+import 'package:food_delivery_app/controller/cart_model.dart';
 import 'package:food_delivery_app/view/widgets/button_default.dart';
 
 class CartTile extends StatelessWidget {
@@ -46,7 +46,7 @@ class CartTile extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "${cartProduct.productData.store}",
+                    "${cartProduct.productData.storeName}",
                     style: TextStyle(fontWeight: FontWeight.w400),
                   ),
                   Row(
@@ -102,7 +102,7 @@ class CartTile extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     cartProduct.productData =
-                        ProductData.fromDocument(snapshot.data);
+                        ProductModel.fromDocument(snapshot.data);
                     return Column(
                       children: [
                         _buildContent(),

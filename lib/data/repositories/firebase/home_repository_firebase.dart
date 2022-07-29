@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:food_delivery_app/data/datasources/firebase.dart';
 
 class HomeRepositoryFirebase {
-  Future<QuerySnapshot> getCategories() {
-    return Firestore.instance.collection('category').getDocuments();
-  }
+  FirebaseDatasource _firebase;
+
+  HomeRepositoryFirebase(this._firebase);
+  Future<QuerySnapshot> getCategories() => _firebase.getCategories();
 
   Future<QuerySnapshot> getSlides() {
     return Firestore.instance.collection('slides').getDocuments();

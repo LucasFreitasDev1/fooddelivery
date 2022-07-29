@@ -1,12 +1,7 @@
 {
     "folders": [
         {
-            "path": ".."
+            "path": "."
         }
-    ],
-    "settings": {
-        "dart.flutterCreateOrganization": null,
-        "dart.hotReloadOnSave": "all",
-        "dart.flutterSdkPath": "/home/eduarda/snap/flutter/common/flutter"
-    }
+    ]
 }

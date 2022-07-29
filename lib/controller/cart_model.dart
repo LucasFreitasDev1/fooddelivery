@@ -4,11 +4,10 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_delivery_app/model/cart_product.dart';
 import 'package:food_delivery_app/model/user_client_model.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
 
-class CartModel extends Model {
-  UserClientModel user;
+class CartModel {
+  UserClient user;
 
   Map<String, List<CartProduct>> products = {};
 
@@ -38,8 +37,6 @@ class CartModel extends Model {
     });
 
     products[cartProduct.adminId] = [cartProduct];
-
-    notifyListeners();
   }
 
   void removeCartItem(CartProduct cartProduct) {
@@ -53,8 +50,6 @@ class CartModel extends Model {
         .delete();
 
     products[cartProduct.adminId].remove(cartProduct);
-
-    notifyListeners();
   }
 
   void decProduct(CartProduct cartProduct) {
@@ -68,8 +63,6 @@ class CartModel extends Model {
         .collection('products')
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
-
-    notifyListeners();
   }
 
   void incProduct(CartProduct cartProduct) {
@@ -83,8 +76,6 @@ class CartModel extends Model {
         .collection('products')
         .document(cartProduct.cid)
         .updateData(cartProduct.toMap());
-
-    notifyListeners();
   }
 
   void setCoupon(String couponCode, int discountPercentage) {
@@ -92,9 +83,7 @@ class CartModel extends Model {
     this.discountPercentage = discountPercentage;
   }
 
-  void updatePrices() {
-    notifyListeners();
-  }
+  void updatePrices() {}
 
   double getProductsPriceTotal() {
     double priceTotal = 0.0;
@@ -142,7 +131,6 @@ class CartModel extends Model {
     if (products.length == 0) return null;
 
     isLoading = true;
-    notifyListeners();
 
 /* 
     List<String> admins;
@@ -220,7 +208,6 @@ class CartModel extends Model {
       discountPercentage = 0;
 
       isLoading = false;
-      notifyListeners();
 
       return orderId;
     }
@@ -255,6 +242,5 @@ class CartModel extends Model {
     /*   products[adminId] =
         query.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
  */
-    notifyListeners();
   }
 }

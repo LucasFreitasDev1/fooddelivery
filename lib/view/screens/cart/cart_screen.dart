@@ -1,7 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/login_bloc.dart';
-import 'package:food_delivery_app/model/cart_model.dart';
+import 'package:food_delivery_app/controller/cart_model.dart';
 import 'package:food_delivery_app/view/screens/cart/widgets/cart_price_total.dart';
 import 'package:food_delivery_app/view/screens/cart/widgets/discount_card.dart';
 import 'package:food_delivery_app/view/screens/login/login_screen.dart';
@@ -98,7 +98,7 @@ class CartPage extends StatelessWidget {
                           padding: EdgeInsets.all(10),
                           alignment: Alignment.topLeft,
                           child: Text(
-                            model.products[adminId].first.store,
+                            model.products[adminId].first.storeName,
                             style: TextStyle(fontWeight: FontWeight.w500),
                           ),
                         ),

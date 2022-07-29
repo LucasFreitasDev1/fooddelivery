@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/model/productData.dart';
+import 'package:food_delivery_app/model/product_model.dart';
 import 'package:food_delivery_app/view/tiles/product_tile.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -51,8 +51,8 @@ class CategoryPage extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           );
                         } else {
-                          ProductData data =
-                              ProductData.fromDocument(snapshot.data);
+                          ProductModel data =
+                              ProductModel.fromDocument(snapshot.data);
                           data.category = snapshot.data.data['category'];
                           return ProductTile(data);
                         }

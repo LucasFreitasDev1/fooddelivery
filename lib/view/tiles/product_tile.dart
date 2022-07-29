@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/model/productData.dart';
+import 'package:food_delivery_app/model/product_model.dart';
 import 'package:food_delivery_app/view/screens/product/productPage.dart';
 
 class ProductTile extends StatelessWidget {
-  final ProductData product;
+  final ProductModel product;
 
   ProductTile(this.product);
 
@@ -49,7 +49,7 @@ class ProductTile extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      product.store,
+                      product.storeName,
                       maxLines: 1,
                       textAlign: TextAlign.center,
                       style: TextStyle(

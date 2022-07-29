@@ -1,11 +1,19 @@
+import 'dart:async';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'validators/address_validators.dart';
 
 class AddressBloc extends BlocBase with AddressValidators {
+  /*  void dispose() {
+    _ruaController.close();
+    _bairroController.close();
+    _cidadeController.close();
+    _estadoController.close();
+    _complementoController.close();
+    _referenciaController.close();
+  } */
   @override
   void dispose() {
     _loadingController.close();
@@ -15,15 +23,16 @@ class AddressBloc extends BlocBase with AddressValidators {
     _estadoController.close();
     _complementoController.close();
     _referenciaController.close();
+    super.dispose();
   }
 
-  final _ruaController = BehaviorSubject<String>();
-  final _bairroController = BehaviorSubject<String>();
-  final _cidadeController = BehaviorSubject<String>();
-  final _estadoController = BehaviorSubject<String>();
-  final _complementoController = BehaviorSubject<String>();
-  final _referenciaController = BehaviorSubject<String>();
-  final _loadingController = BehaviorSubject<bool>();
+  final _ruaController = StreamController<String>();
+  final _bairroController = StreamController<String>();
+  final _cidadeController = StreamController<String>();
+  final _estadoController = StreamController<String>();
+  final _complementoController = StreamController<String>();
+  final _referenciaController = StreamController<String>();
+  final _loadingController = StreamController<bool>();
 
   Function(String) get changeRua => _ruaController.sink.add;
   Function(String) get changeBairro => _bairroController.sink.add;
@@ -57,12 +66,12 @@ class AddressBloc extends BlocBase with AddressValidators {
     }
 
     Map<String, dynamic> address = {
-      'cidade': _cidadeController.value,
-      'bairro': _bairroController.value,
-      'estado': _estadoController.value,
-      'complemento': _complementoController.value,
-      'referencia': _referenciaController.value,
-      'rua': _ruaController.value,
+      'cidade': _cidadeController.stream.first,
+      'bairro': _bairroController.stream.first,
+      'estado': _estadoController.stream.first,
+      'complemento': _complementoController.stream.first,
+      'referencia': _referenciaController.stream.first,
+      'rua': _ruaController.stream.first,
     };
 
     await Firestore.instance

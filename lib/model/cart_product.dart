@@ -1,27 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:food_delivery_app/model/productData.dart';
+import 'package:food_delivery_app/model/product_model.dart';
 
 class CartProduct {
-  String cid;
+  String? cid;
 
-  String category;
-  String pid;
-  String adminId;
+  String? category;
+  String? pid;
+  String? adminId;
 
-  int quantity;
-  String store;
+  int? quantity;
+  String? store;
 
-  ProductData productData;
+  ProductModel? productData;
 
-  CartProduct();
-
-  CartProduct.fromDocument(DocumentSnapshot document) {
-    cid = document.documentID;
-    category = document.data["category"];
-    pid = document.data["pid"];
-    adminId = document.data['adminId'];
-    quantity = document.data["quantity"];
-    store = document.data["store"];
+  CartProduct.fromDocument(DocumentSnapshot doc) {
+    cid = doc.id;
+    category = doc["category"];
+    pid = doc["pid"];
+    adminId = doc['adminId'];
+    quantity = doc["quantity"];
+    store = doc["store"];
   }
 
   Map<String, dynamic> toMap() {
@@ -31,7 +29,7 @@ class CartProduct {
       'adminId': adminId,
       "quantity": quantity,
       "store": store,
-      "product": productData.toResumedMap()
+      "product": productData?.toResumedMap()
     };
   }
 }

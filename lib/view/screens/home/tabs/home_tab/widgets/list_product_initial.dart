@@ -2,7 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/blocs/home_bloc.dart';
-import 'package:food_delivery_app/model/productData.dart';
+import 'package:food_delivery_app/model/product_model.dart';
 import 'package:food_delivery_app/view/tiles/product_tile.dart';
 
 enum ItemsDisplay { full, trendings }
@@ -122,7 +122,7 @@ class _ListProductInitialState extends State<ListProductInitial> {
         itemCount: products.documents.length,
         itemBuilder: (context, index) {
           DocumentSnapshot doc = products.documents.elementAt(index);
-          ProductData data = ProductData.fromDocument(doc);
+          ProductModel data = ProductModel.fromDocument(doc);
           data.category = doc.data['category'];
           return ProductTile(data);
         });

@@ -1,34 +1,33 @@
 import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_delivery_app/model/user_client_model.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'validators/login_validators.dart';
 import 'validators/signup_validator.dart';
 
 class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
-  final _emailController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
-  final _confirmPassController = BehaviorSubject<String>();
-  final _nameController = BehaviorSubject<String>();
-  final _titleStoreController = BehaviorSubject<String>();
-  final _phoneController = BehaviorSubject<String>();
-  final _loadingController = BehaviorSubject<bool>();
+  final _emailController = StreamController<String>();
+  final _passwordController = StreamController<String>();
+  final _confirmPassController = StreamController<String>();
+  final _nameController = StreamController<String>();
+  final _titleStoreController = StreamController<String>();
+  final _phoneController = StreamController<String>();
+  final _loadingController = StreamController<bool>();
 
-  UserClientModel userModel;
+  UserClient? userModel;
 
   // ignore: unused_field
-  FirebaseUser _firebaseUser;
+  // FirebaseUser _firebaseUser;
 
   Stream<String> get outEmail =>
       _emailController.stream.transform(validateEmail);
   Stream<String> get outPassword =>
       _passwordController.stream.transform(validatePassword);
-  Stream<String> get outConfirmPass => _confirmPassController.stream
-      .transform(validateConfirmPassword(_passwordController.value));
+  Future<Stream<String>> get outConfirmPass async =>
+      _confirmPassController.stream.transform(validateConfirmPassword(
+          await _passwordController.stream.first));
   Stream<String> get outName => _nameController.stream.transform(validateName);
   Stream<String> get outTitleStore =>
       _titleStoreController.stream.transform(validateNameStore);
@@ -52,20 +51,21 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
     _phoneController.close();
     _loadingController.close();
     _titleStoreController.close();
+    super.dispose();
   }
-
+/* 
   Future<String> signUp() async {
     _loadingController.add(true);
     userModel = UserClientModel(
-        email: _emailController.value,
-        name: _nameController.value,
-        phone: _phoneController.value,
+        email: _emailController.stream.first,
+        name: _nameController.stream.first,
+        phone: _phoneController.stream.first,
         address: {});
-    String password = _passwordController.value;
-    String message = '';
+    String password = _passwordController.stream.first;
+    String message = ''; */
 
     /// Verifica se não está nulo
-    if (userModel.email == null || userModel.email.isEmpty) {
+   /*  if (userModel.email == null || userModel.email.isEmpty) {
       message = 'Preencha os campos corretamente';
       _loadingController.add(false);
       return message;
@@ -74,7 +74,7 @@ class SignUpBloc extends BlocBase with SignUpValidator, LoginValidators {
       message = await _createUser(userModel.email, password);
       _loadingController.add(false);
       return message;
-    }
+    } */
   }
 
   /// Function for save data on Firebase

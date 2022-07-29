@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_delivery_app/model/user_client_model.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'validators/login_validators.dart';
@@ -11,10 +9,10 @@ import 'validators/login_validators.dart';
 enum LoginState { IDLE, LOADING, SUCCESS, FAIL }
 
 class LoginBloc extends BlocBase with LoginValidators {
-  final _emailController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
-  final _stateController = BehaviorSubject<LoginState>();
-  final _loadingController = BehaviorSubject<bool>();
+  final _emailController = StreamController<String>();
+  final _passwordController = StreamController<String>();
+  final _stateController = StreamController<LoginState>();
+  final _loadingController = StreamController<bool>();
 
   Stream<String> get outEmail =>
       _emailController.stream.transform(validateEmail);
@@ -30,10 +28,10 @@ class LoginBloc extends BlocBase with LoginValidators {
 
   StreamSubscription _streamSubscription;
 
-  UserClientModel userModel;
+  UserClient userModel;
 
   LoginBloc() {
-    userModel = UserClientModel();
+    userModel = UserClient();
 
     try {
       _streamSubscription =
@@ -104,7 +102,7 @@ class LoginBloc extends BlocBase with LoginValidators {
 
   void signOut() {
     FirebaseAuth.instance.signOut();
-    userModel = UserClientModel();
+    userModel = UserClient();
     _stateController.add(LoginState.FAIL);
   }
 
@@ -133,12 +131,12 @@ class LoginBloc extends BlocBase with LoginValidators {
   }
 
   @override
-  void dispose() {
+  /* void dispose() {
     _emailController.close();
     _passwordController.close();
     _stateController.close();
     _loadingController.close();
 
     _streamSubscription.cancel();
-  }
+  } */
 }
