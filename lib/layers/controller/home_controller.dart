@@ -1,4 +1,6 @@
-import '../data/repositories/firebase/home_repository.dart';
+import 'package:mobx/mobx.dart';
+
+import '../data/repositories/home_repository.dart';
 
 part 'home_controller.g.dart';
 
