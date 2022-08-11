@@ -1,9 +1,11 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/blocs/home_bloc.dart';
-import 'package:food_delivery_app/model/product_model.dart';
-import 'package:food_delivery_app/view/tiles/product_tile.dart';
+import 'package:food_delivery_app/layers/controller/home_controller.dart';
+import 'package:food_delivery_app/shared/dependencies_injector.dart';
+
+import '../../../../../../model/product_model.dart';
+import '../../../../../tiles/product_tile.dart';
 
 enum ItemsDisplay { full, trendings }
 
@@ -17,17 +19,18 @@ class _ListProductInitialState extends State<ListProductInitial> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeBloc>(context);
+    final bloc = inject.get<HomeController>();
 
-    return FutureBuilder<QuerySnapshot>(
+    return FutureBuilder<List<ProductModel>?>(
         future: bloc.getAllProductsHomePage(),
-        builder: (context, products) {
-          if (!products.hasData)
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
             return Container(
               alignment: Alignment.center,
               child: CircularProgressIndicator(),
             );
           else {
+            var listProducts = snapshot.data!;
             return Padding(
               padding: const EdgeInsets.only(top: 22),
               child: Column(
@@ -98,8 +101,8 @@ class _ListProductInitialState extends State<ListProductInitial> {
                     ],
                   ),
                   _selectDisplay == ItemsDisplay.full
-                      ? buildGridView(products.data)
-                      : buildGridView(products.data)
+                      ? buildGridView(listProducts)
+                      : buildGridView(listProducts)
                 ],
               ),
             );
@@ -107,7 +110,7 @@ class _ListProductInitialState extends State<ListProductInitial> {
         });
   }
 
-  GridView buildGridView(QuerySnapshot products) {
+  GridView buildGridView(List<ProductModel> products) {
     return GridView.builder(
         physics: ScrollPhysics(),
         scrollDirection: Axis.vertical,
@@ -119,11 +122,12 @@ class _ListProductInitialState extends State<ListProductInitial> {
           crossAxisSpacing: 4.0,
           childAspectRatio: 0.9,
         ),
-        itemCount: products.documents.length,
+        itemCount: products.length,
         itemBuilder: (context, index) {
-          DocumentSnapshot doc = products.documents.elementAt(index);
-          ProductModel data = ProductModel.fromDocument(doc);
-          data.category = doc.data['category'];
+          //  DocumentSnapshot doc = products.documents.elementAt(index);
+          ProductModel data = products.elementAt(index);
+          // ProductModel.fromDocument(doc);
+          //   data.category = doc.data['category'];
           return ProductTile(data);
         });
   }

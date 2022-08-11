@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/customAppBar.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/search_bar.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/title_app.dart';
+import 'customAppBar.dart';
+import 'search_bar.dart';
+import 'title_app.dart';
 
 class FirstHalf extends StatefulWidget {
   const FirstHalf({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

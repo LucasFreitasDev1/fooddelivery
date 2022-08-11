@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/trendings_foods_heading.dart';
+
+import 'trendings_foods_heading.dart';
 
 class TrendingsFoodsHome extends StatelessWidget {
-  const TrendingsFoodsHome({Key key}) : super(key: key);
+  const TrendingsFoodsHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(height: 20),
-        
         TrendingsFoodsHeading(),
 
         /* 
@@ -47,7 +47,6 @@ class TrendingsFoodsHome extends StatelessWidget {
               return Container();
             }), 
             */
-
       ],
     );
   }

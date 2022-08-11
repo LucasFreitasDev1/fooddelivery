@@ -1,16 +1,14 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/blocs/home_bloc.dart';
-import 'package:food_delivery_app/model/product_model.dart';
-import 'package:food_delivery_app/model/slide_model.dart';
-import 'package:food_delivery_app/view/screens/cart/cart_screen.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/carousel_slider_loader.dart';
-import 'package:food_delivery_app/view/screens/product/productPage.dart';
+import 'package:food_delivery_app/layers/controller/home_controller.dart';
+import 'package:food_delivery_app/shared/dependencies_injector.dart';
+import '../../../../../../model/slide_model.dart';
+import '../../../../cart/cart_screen.dart';
+import '../../../../product/productPage.dart';
+import 'carousel_slider_loader.dart';
 
 class CarouselSliderHome extends StatefulWidget {
-  CarouselSliderHome({Key key}) : super(key: key);
+  CarouselSliderHome({Key? key}) : super(key: key);
 
   @override
   _CarouselSliderHomeState createState() => _CarouselSliderHomeState();
@@ -20,18 +18,14 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
   var _current = 0;
 
   @override
-  initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeBloc>(context);
+    final home = inject.get<HomeController>();
 
-    return FutureBuilder<QuerySnapshot>(
-        future: bloc.getSlides(),
+    return FutureBuilder<List<SlideModel>?>(
+        future: home.getSlides(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            var listSlide = snapshot.data!;
             return Stack(
               alignment: AlignmentDirectional.bottomCenter,
               fit: StackFit.passthrough,
@@ -39,10 +33,9 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                 Container(
                   padding: EdgeInsets.only(bottom: 12),
                   child: CarouselSlider.builder(
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) {
-                      SlideModel slide = SlideModel.fromDocument(
-                          snapshot.data.documents.elementAt(index));
+                    itemCount: listSlide.length,
+                    itemBuilder: (context, index, i) {
+                      var slide = listSlide.elementAt(index);
 
                       return Container(
                         margin: EdgeInsets.all(5.0),
@@ -54,27 +47,25 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                                 GestureDetector(
                                   child: Image.network(slide.imageFit,
                                       fit: BoxFit.cover),
-                                  onTap: slide.storeId.isEmpty &&
-                                          slide.foodId.isEmpty
+                                  onTap: slide.storeId!.isEmpty &&
+                                          slide.foodId!.isEmpty
                                       ? () {}
                                       : () => Navigator.of(context).push(
                                             MaterialPageRoute(builder: (_) {
                                               if (slide.foodId != '') {
-                                                bloc
+                                                home
                                                     .getProductFromId(
-                                                        slide.foodId)
+                                                        slide.foodId ?? '')
                                                     .then((value) {
-                                                  return ProductScreen(
-                                                    ProductModel.fromDocument(
-                                                        value),
-                                                  );
+                                                  return ProductScreen(value);
                                                 });
                                               } else if (slide.storeId != '') {
                                                 ///apenas um teste
                                                 ///falta criar pagina para restaurante
                                                 return CartPage();
                                               }
-                                              return null;
+
+                                              return const SizedBox();
                                             }),
                                           ),
                                 ),
@@ -103,7 +94,7 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                   //margin: EdgeInsets.symmetric(vertical: 22, horizontal: 42),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: snapshot.data.documents.map((slide) {
+                    children: listSlide.map((slide) {
                       return Container(
                         width: 6,
                         height: 6,
@@ -114,10 +105,8 @@ class _CarouselSliderHomeState extends State<CarouselSliderHome> {
                               Radius.circular(8),
                             ),
                             color: _current ==
-                                    snapshot.data.documents.indexWhere(
-                                        (element) =>
-                                            element.documentID ==
-                                            slide.documentID)
+                                    listSlide.indexWhere(
+                                        (element) => element.id == slide.id)
                                 ? Colors.blueGrey
                                 : Colors.blueGrey.withOpacity(0.3)),
                       );

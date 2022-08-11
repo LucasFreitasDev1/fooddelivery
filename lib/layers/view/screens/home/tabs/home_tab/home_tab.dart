@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/buttonToCart.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/carousel_slider_home.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/firstHalf.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/list_product_initial.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/tab_categories.dart';
-import 'package:food_delivery_app/view/screens/home/widgets/drawer.dart';
+
+import '../../widgets/drawer.dart';
+import 'widgets/buttonToCart.dart';
+import 'widgets/carousel_slider_home.dart';
+import 'widgets/firstHalf.dart';
+import 'widgets/list_product_initial.dart';
+import 'widgets/tab_categories.dart';
 
 class HomeTab extends StatefulWidget {
   final PageController _pageController;

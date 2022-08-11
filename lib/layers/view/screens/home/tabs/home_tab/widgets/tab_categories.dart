@@ -1,15 +1,17 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../blocs/home_bloc.dart';
+import 'package:food_delivery_app/layers/controller/home_controller.dart';
+import 'package:food_delivery_app/shared/dependencies_injector.dart';
+import '../../../../../../model/button_category_model.dart';
 import '../../../../../screens/category/categoryPage.dart';
 import '../widgets/button_category.dart';
 
 class TabCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot>(
-      future: bloc.getCategories(),
+    final home = inject.get<HomeController>();
+    return FutureBuilder<List<CategoryButtonModel>?>(
+      future: home.getCategories(),
       builder: (context, snapshot) {
         if (snapshot.hasError)
           return Container(
@@ -29,21 +31,22 @@ class TabCategories extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10.0),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: snapshot.data.documents.length,
+              itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
+                var model = snapshot.data!.elementAt(index);
                 return ButtonCategory(
-                    imgUrl: snapshot.data.documents.elementAt(index)['img'],
+                    imgUrl:
+                        model.img, // snapshot.data!.elementAt(index)['img'],
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CategoryPage(
-                              snapshot.data.documents.elementAt(index))));
+                          builder: (context) => CategoryPage(model)));
                     });
               },
             ),
           );
         }
         // Default
-        return Container();
+        return Center(child: CircularProgressIndicator());
       },
     );
   }

@@ -1,8 +1,8 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/blocs/login_bloc.dart';
-import 'package:food_delivery_app/view/screens/login/login_screen.dart';
-import 'package:food_delivery_app/view/tiles/drawer_tile.dart';
+
+import '../../../tiles/drawer_tile.dart';
+import '../../login/login_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   final PageController pageController;

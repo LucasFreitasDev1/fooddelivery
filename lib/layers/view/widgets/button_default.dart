@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class DefaultButton extends StatelessWidget {
   const DefaultButton({
-    Key key,
-    @required this.onPressed,
+    Key? key,
+    required this.onPressed,
     this.radius = 40,
     this.color = Colors.teal,
     this.child,
@@ -19,7 +19,7 @@ class DefaultButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double radius;
   final Color color;
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {

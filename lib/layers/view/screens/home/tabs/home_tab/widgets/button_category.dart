@@ -2,32 +2,19 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/shared/dependencies_injector.dart';
 
-class ButtonCategory extends StatefulWidget {
-  ButtonCategory({Key key, @required this.imgUrl, @required this.onTap});
+import '../../../../../../controller/home_controller.dart';
+
+class ButtonCategory extends StatelessWidget {
+  ButtonCategory({Key? key, required this.imgUrl, required this.onTap});
 
   final String imgUrl;
-  final Function onTap;
-
-  @override
-  _ButtonCategoryState createState() => _ButtonCategoryState(imgUrl, onTap);
-}
-
-class _ButtonCategoryState extends State<ButtonCategory> {
-  _ButtonCategoryState(this._img, this.onTap);
-
-  String _img;
-  Stream _ref;
-  Function onTap;
-
-  @override
-  initState() {
-    super.initState();
-    _ref = FirebaseStorage().getReferenceFromUrl(_img).asStream();
-  }
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
+    final home = inject.get<HomeController>();
     return Container(
       width: 62,
       clipBehavior: Clip.hardEdge,
@@ -37,31 +24,23 @@ class _ButtonCategoryState extends State<ButtonCategory> {
               Border.all(color: Colors.grey), //Theme.of(context).primaryColor
           borderRadius: BorderRadius.circular(50)),
       child: InkWell(
-        borderRadius: BorderRadius.circular(50),
-        onTap: onTap,
-        splashColor: Theme.of(context).primaryColor,
-        child: StreamBuilder<StorageReference>(
-          stream: _ref,
-          builder: (context, ref) {
-            if (ref.hasData)
-              return FutureBuilder(
-                  initialData: '',
-                  future: ref.data.getDownloadURL(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CachedNetworkImage(
-                          imageUrl: snapshot.data.toString(),
-                        ),
-                      );
-                    }
-                    return Container();
-                  });
-            return CircularProgressIndicator();
-          },
-        ),
-      ),
+          borderRadius: BorderRadius.circular(50),
+          onTap: onTap,
+          splashColor: Theme.of(context).primaryColor,
+          child: FutureBuilder<String>(
+              initialData: '',
+              future: home.getImageCategory(imgUrl),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CachedNetworkImage(
+                      imageUrl: snapshot.data!,
+                    ),
+                  );
+                }
+                return Center(child: CircularProgressIndicator());
+              })),
     );
   }
 }

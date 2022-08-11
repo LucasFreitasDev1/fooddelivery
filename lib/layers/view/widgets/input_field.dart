@@ -1,6 +1,6 @@
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class InputField extends StatefulWidget {
   final IconData icon;
@@ -12,13 +12,13 @@ class InputField extends StatefulWidget {
   final bool done;
 
   InputField(
-      {this.icon,
-      this.hint,
-      this.obscure,
-      this.stream,
-      this.onChanged,
-      this.keyboardType,
-      this.done});
+      {required this.icon,
+      required this.hint,
+      required this.obscure,
+      required this.stream,
+      required this.onChanged,
+      required this.keyboardType,
+      required this.done});
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -27,7 +27,7 @@ class InputField extends StatefulWidget {
 class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
-    final _maskPhone = MaskTextInputFormatter(mask: '(##) #####-####');
+    final _maskPhone = TextInputMask(mask: '(##) #####-####');
 
     return StreamBuilder<String>(
         stream: widget.stream,
@@ -53,7 +53,7 @@ class _InputFieldState extends State<InputField> {
             decoration: InputDecoration(
               prefixIcon: Icon(widget.icon),
               hintText: widget.hint,
-              errorText: snapshot.hasError ? snapshot.error : null,
+              errorText: snapshot.hasError ? snapshot.error.toString() : null,
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
                   borderSide:

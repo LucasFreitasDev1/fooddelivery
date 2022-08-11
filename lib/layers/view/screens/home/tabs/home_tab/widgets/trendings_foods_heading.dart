@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TrendingsFoodsHeading extends StatelessWidget {
-  const TrendingsFoodsHeading({Key key}) : super(key: key);
+  const TrendingsFoodsHeading({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

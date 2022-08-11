@@ -2,32 +2,32 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:food_delivery_app/model/cart_product.dart';
-import 'package:food_delivery_app/model/user_client_model.dart';
-import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
 
 import '../model/cart_product.dart';
+import '../model/user_client_model.dart';
+part 'cart_controller.g.dart';
 
-class CartModel {
-  UserClient user;
+class CartController = _CartController with _$CartController;
 
+abstract class _CartController with Store {
+  UserClient? user;
   Map<String, List<CartProduct>> products = {};
-
-  String couponCode;
+  String? couponCode;
   int discountPercentage = 0;
   var db;
 
   bool isLoading = false;
 
-  CartModel(user) {
+  _CartController(user) {
     this.user = user;
-    if (this.user.uid != null) _loadCartItems();
+    if (this.user?.uid != null) _loadCartItems();
   }
 
   void addCartItem(CartProduct cartProduct) {
     db
         .collection("users")
-        .document(user.uid)
+        .document(user?.uid)
         .collection("cart")
         .document(cartProduct.adminId)
         .collection('products')
@@ -42,14 +42,14 @@ class CartModel {
   void removeCartItem(CartProduct cartProduct) {
     db
         .collection("users")
-        .document(user.uid)
+        .document(user?.uid)
         .collection("cart")
         .document(cartProduct.adminId)
         .collection('products')
         .document(cartProduct.cid)
         .delete();
 
-    products[cartProduct.adminId].remove(cartProduct);
+    products[cartProduct.adminId]?.remove(cartProduct);
   }
 
   void decProduct(CartProduct cartProduct) {
@@ -57,7 +57,7 @@ class CartModel {
 
     db
         .collection("users")
-        .document(user.uid)
+        .document(user?.uid)
         .collection("cart")
         .document(cartProduct.adminId)
         .collection('products')
@@ -70,7 +70,7 @@ class CartModel {
 
     db
         .collection("users")
-        .document(user.uid)
+        .document(user?.uid)
         .collection("cart")
         .document(cartProduct.adminId)
         .collection('products')
@@ -99,10 +99,11 @@ class CartModel {
   double getProductsPriceAdmin(String adminId) {
     double total = 0.0;
 
-    for (CartProduct c in products[adminId]) {
-      String price = c.productData.price.replaceAll(',', '.');
+    for (CartProduct c in products[adminId] ?? []) {
+      String price =
+          c.productData.price.toStringAsFixed(2).replaceAll(',', '.');
 
-      if (c.productData != null) total += c.quantity * double.parse(price);
+      total += c.quantity * double.parse(price);
     }
     return total;
   }
@@ -127,8 +128,10 @@ class CartModel {
   }
 
   // ignore: missing_return
-  Future<String> finishOrder() async {
-    if (products.length == 0) return null;
+  Future<String?> finishOrder() async {
+    if (products.length == 0) {
+      return null;
+    }
 
     isLoading = true;
 
@@ -159,8 +162,8 @@ class CartModel {
           .document(orderId)
           .setData({
         "adminId": adminId,
-        "clientId": user.uid,
-        "products": products[adminId]
+        "clientId": user!.uid,
+        "products": products[adminId]!
             .map((cartProduct) => cartProduct.toMap())
             .toList(),
         "shipPrice": shipPrice,
@@ -173,7 +176,7 @@ class CartModel {
 
       await db
           .collection("users")
-          .document(user.uid)
+          .document(user!.uid)
           .collection("orders")
           /* 
           .document('admins')
@@ -194,11 +197,11 @@ class CartModel {
 
       QuerySnapshot query = await db
           .collection("users")
-          .document(user.uid)
+          .document(user!.uid)
           .collection("cart")
           .getDocuments();
 
-      for (DocumentSnapshot doc in query.documents) {
+      for (DocumentSnapshot doc in query.docs) {
         doc.reference.delete();
       }
 
@@ -216,26 +219,27 @@ class CartModel {
   Future<void> _loadCartItems() async {
     QuerySnapshot query = await db
         .collection("users")
-        .document(user.uid)
+        .document(user?.uid)
         .collection("cart")
         .getDocuments();
-    log(user.uid + ', query: ' + query.documents.toString());
+    log(user?.uid ?? '' + ', query: ' + query.docs.toString());
 
     QuerySnapshot query2;
 
-    for (DocumentSnapshot doc in query.documents) {
+    for (DocumentSnapshot doc in query.docs) {
       query2 = await db
           .collection("users")
-          .document(user.uid)
+          .document(user?.uid)
           .collection("cart")
-          .document(doc.documentID)
+          .document(doc.id)
           .collection('products')
           .getDocuments();
 
-      log('query2: ' + query2.documents.toString());
+      log('query2: ' + query2.docs.toString());
 
-      products[doc.documentID] =
-          query2.documents.map((d) => CartProduct.fromDocument(d)).toList();
+      products[doc.id] = query2.docs
+          .map((d) => CartProduct.fromMap(d.data() as Map<String, dynamic>))
+          .toList();
     }
     log(products.isEmpty.toString());
 

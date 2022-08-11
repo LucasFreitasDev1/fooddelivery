@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import '../../model/user_client_model.dart';
-import '../datasources/firebase.dart';
+import '../datasources/firebase_datasource.dart';
 
 class AuthRepository {
   final FirebaseDatasource _firebase;

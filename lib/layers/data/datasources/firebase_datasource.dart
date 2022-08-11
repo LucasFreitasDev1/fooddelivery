@@ -3,14 +3,13 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:food_delivery_app/model/address_model.dart';
-import 'package:food_delivery_app/model/button_category_model.dart';
-import 'package:food_delivery_app/model/product_model.dart';
-import 'package:food_delivery_app/model/slide_model.dart';
-import 'package:food_delivery_app/model/store_model.dart';
-import 'package:food_delivery_app/model/user_client_model.dart';
-import 'package:food_delivery_app/view/screens/home/tabs/home_tab/widgets/button_category.dart';
-import 'package:food_delivery_app/view/tiles/product_tile.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
+import '../../model/button_category_model.dart';
+import '../../model/product_model.dart';
+import '../../model/slide_model.dart';
+import '../../model/store_model.dart';
+import '../../model/user_client_model.dart';
 
 class FirebaseDatasource {
   final _auth = FirebaseAuth.instance;
@@ -140,15 +139,16 @@ class FirebaseDatasource {
     return _auth.signOut();
   }
 
+  /* autenticação por celular
   /// Verifica o numero de telefone informado
   /// enviando um código de verificação para o mesmo
   /// e salva o verificationId gerado em variável, e atualiza
   ///  o status do otp para enviado, caso sucesso.
-  /* 
+ 
   Future<VerificationStateOTP?> authOTP(String phoneNumber) async {
     String message = '';
     VerificationStateOTP? verificationState;
-/* 
+ 
     // ignore: prefer_function_declarations_over_variables
     PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential phoneAuthCredential) async {
@@ -185,7 +185,7 @@ class FirebaseDatasource {
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
           codeSent: codeSent,
-          codeAutoRetrievalTimeout: codeAutoRetrievalTimeout); */
+          codeAutoRetrievalTimeout: codeAutoRetrievalTimeout); 
     try {
       await _auth
           .signInWithPhoneNumber(phoneNumber,
@@ -259,7 +259,7 @@ class FirebaseDatasource {
             Timestamp.fromDate(DateTime.now().add(const Duration(minutes: 50))),
       }
     });
-    /*    .get().then((value) async {
+      .get().then((value) async {
       value.data()?.addAll({
         'phone': user?.phoneNumber,
         'tokensOtpWeb': {
@@ -272,7 +272,7 @@ class FirebaseDatasource {
       });
 
       await _db.collection('usuarios').doc(user?.uid).set(value.data()!);
- */
+ 
   }
 
   /// Busca historico de transações do usuário no db firestore
@@ -328,8 +328,8 @@ class FirebaseDatasource {
 
     var message = '';
     //porcentagem da taxa do plugpix sobre a transação
-    /*  var valorDescontoTaxa =
-        model.valorTotal * (model.taxaPorcentagemPlugPix / 100); */
+      var valorDescontoTaxa =
+        model.valorTotal * (model.taxaPorcentagemPlugPix / 100); 
 
     await _db.collection('transacoes').add({
       'clienteUid': user!.uid,
@@ -398,11 +398,13 @@ class FirebaseDatasource {
     }
   }
 
-  Future<List<ProductModel?>?> getProdutcsCategories(String category) async {
+  Future<List<ProductModel?>?> getProdutcsCategories(
+      String categoryTitle) async {
     try {
       var query = await _db
           .collection('products')
-          .where('category', isEqualTo: category)
+          .where('category', isEqualTo: categoryTitle)
+          .limit(20)
           .get();
 
       if (query.docs.isNotEmpty) {
@@ -481,6 +483,10 @@ class FirebaseDatasource {
       print('Erro ao buscar lista de produtos. verifique conexão');
       return null;
     }
+  }
+
+  Future<String> getImageCategory(String img) {
+    return FirebaseStorage.instance.ref(img).getDownloadURL();
   }
 
   /// Busca dados de um produto usando o id informado
